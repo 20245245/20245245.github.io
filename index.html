@@ -1,611 +1,476 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>크레이지 아케이드 (Crazy Arcade) - 공식 브랜드 사이트</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --primary: #ffc83d;
-  --primary-hover: #ffd966;
-  --secondary: #1e3a78;
-  --bg-dark: #0b1528;
-  --bg-card: #142444;
-  --accent-blue: #47a8ff;
-  --text-main: #f0f6ff;
-  --text-sub: #9bb5db;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-a { text-decoration: none; color: inherit; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>천명(天命) 사주명리관 | 경영정보학도 이경민의 웹 프로젝트</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=Song+Myung&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --card-sub: #21262d;
+      --border: #30363d;
+      --gold: #d29922;
+      --gold-light: #f1e05a;
+      --text: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+    }
 
-/* 1. 상단 GNB */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(11, 21, 40, 0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 2px solid #1e3a78;
-  padding: 16px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.logo {
-  font-family: 'Jua', sans-serif;
-  font-size: 26px;
-  color: var(--primary);
-  text-shadow: 2px 2px 0 #e2412e;
-  letter-spacing: 1px;
-}
-nav { display: flex; gap: 24px; align-items: center; }
-nav a {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-sub);
-  transition: color 0.2s;
-}
-nav a:hover { color: var(--primary); }
-.btn-nav-play {
-  background: var(--primary);
-  color: #3b2200 !important;
-  font-weight: 700;
-  padding: 8px 18px;
-  border-radius: 20px;
-  box-shadow: 0 3px 0 #b57f00;
-  transition: transform 0.1s;
-}
-.btn-nav-play:active { transform: translateY(2px); box-shadow: 0 1px 0 #b57f00; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 16px;
+    }
 
-/* 2. 히어로 섹션 */
-.hero {
-  text-align: center;
-  padding: 60px 20px 40px;
-  background: radial-gradient(circle at 50% 20%, #1e3a78 0%, #0b1528 70%);
-}
-.hero h1 {
-  font-family: 'Jua', sans-serif;
-  font-size: 46px;
-  color: #fff;
-  margin-bottom: 12px;
-  letter-spacing: 1px;
-}
-.hero h1 span { color: var(--primary); text-shadow: 2px 2px 0 #e2412e; }
-.hero p { font-size: 18px; color: var(--text-sub); max-width: 600px; margin: 0 auto 24px; word-break: keep-all; }
-.hero .cta-btn {
-  display: inline-block;
-  font-family: 'Jua', sans-serif;
-  font-size: 22px;
-  background: var(--primary);
-  color: #3b2200;
-  padding: 12px 36px;
-  border-radius: 30px;
-  box-shadow: 0 5px 0 #b57f00;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.hero .cta-btn:hover { background: var(--primary-hover); }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
 
-/* 3. 인게임 영역 */
-.play-section {
-  max-width: 800px;
-  margin: 0 auto 60px;
-  padding: 0 20px;
-}
-.game-container {
-  background: var(--bg-card);
-  border: 3px solid #1e3a78;
-  border-radius: 18px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.game-toolbar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding: 0 8px;
-}
-.game-toolbar .status-badge {
-  font-family: 'Jua', sans-serif;
-  background: #1e3a78;
-  color: #7fe3ff;
-  font-size: 14px;
-  padding: 4px 12px;
-  border-radius: 12px;
-}
-#wrap { position: relative; line-height: 0; }
-canvas {
-  border: 4px solid var(--primary);
-  border-radius: 10px;
-  background: #0d1b3a;
-  box-shadow: 0 0 0 4px #1e3a78, 0 10px 40px rgba(0,0,0,0.5);
-  max-width: 100%;
-  height: auto;
-}
-#ov {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: rgba(10, 24, 60, .92);
-  text-align: center;
-  line-height: 1.4;
-  border-radius: 10px;
-  padding: 14px;
-  font-family: 'Jua', sans-serif;
-}
-#ov h1 { margin: 0; font-size: 38px; color: var(--primary); text-shadow: 3px 3px 0 #e2412e, 6px 6px 0 rgba(0,0,0,.4); }
-#ov h2 { margin: 0; font-size: 30px; color: #7fe3ff; }
-#ov p { margin: 0; font-size: 14px; color: #cfe3ff; font-family: 'Noto Sans KR', sans-serif; }
-#ov button {
-  font-family: 'Jua', sans-serif;
-  font-size: 19px;
-  padding: 10px 24px;
-  border: 0;
-  border-radius: 30px;
-  background: var(--primary);
-  color: #3b2200;
-  cursor: pointer;
-  box-shadow: 0 4px 0 #b57f00;
-  min-width: 220px;
-}
-#ov button:hover { background: var(--primary-hover); }
-#ov button:active { transform: translateY(2px); box-shadow: 0 1px 0 #b57f00; }
-.k { display: inline-block; background: #1e3a78; border-radius: 5px; padding: 2px 7px; margin: 0 2px; font-weight: bold; }
+    /* 헤더 */
+    .header {
+      text-align: center;
+      padding: 20px 0 8px;
+    }
+    .header .subtitle {
+      font-family: 'Song Myung', serif;
+      font-size: 14px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .header h1 {
+      font-family: 'Song Myung', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(210, 153, 34, 0.25);
+    }
+    .header p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
 
-/* 4. 가이드 & 특징 섹션 */
-.guide-section {
-  max-width: 1000px;
-  margin: 0 auto 80px;
-  padding: 0 20px;
-}
-.section-title {
-  text-align: center;
-  font-family: 'Jua', sans-serif;
-  font-size: 32px;
-  margin-bottom: 36px;
-  color: var(--primary);
-}
-.guide-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-.card {
-  background: var(--bg-card);
-  border: 1px solid #1e3a78;
-  border-radius: 14px;
-  padding: 24px;
-}
-.card h3 {
-  font-family: 'Jua', sans-serif;
-  font-size: 20px;
-  color: #7fe3ff;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.card ul { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: #cfe3ff; }
-.item-badge { display: inline-block; font-size: 18px; width: 28px; text-align: center; }
+    /* 공통 카드 */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 26px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
 
-/* 5. 푸터 */
-footer {
-  background: #060c18;
-  border-top: 1px solid #142444;
-  padding: 40px 20px;
-  text-align: center;
-  font-size: 13px;
-  color: #657e9f;
-}
-footer .links { display: flex; justify-content: center; gap: 20px; margin-bottom: 12px; }
-footer .links a:hover { color: #fff; }
-</style>
+    .section-title {
+      font-family: 'Song Myung', serif;
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 사이트 소개 (About Section) */
+    .about-card {
+      border-left: 4px solid var(--gold);
+    }
+    .about-text {
+      font-size: 14px;
+      color: #c9d1d9;
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+    .about-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .meta-item {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .meta-item strong {
+      color: var(--text);
+      margin-left: 4px;
+    }
+
+    /* 입력 폼 */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 6px;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus {
+      border-color: var(--gold);
+    }
+    .btn-submit {
+      background: linear-gradient(135deg, var(--gold), #9e6a03);
+      color: #0b0f14;
+      font-family: 'Song Myung', serif;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      padding: 13px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(210, 153, 34, 0.25);
+    }
+    .btn-submit:hover { box-shadow: 0 6px 20px rgba(210, 153, 34, 0.4); }
+    .btn-submit:active { transform: translateY(2px); }
+
+    /* 결과 영역 */
+    #resultArea {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .pillar-table {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      text-align: center;
+      margin-top: 12px;
+    }
+    .pillar-col {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 4px;
+    }
+    .pillar-header { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+    .pillar-hanja { font-family: 'Song Myung', serif; font-size: 24px; font-weight: 700; line-height: 1.3; }
+    .pillar-korean { font-size: 12px; color: var(--gold); margin-top: 4px; }
+
+    .element-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .element-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 4px;
+    }
+    .element-name { font-size: 12px; font-weight: 600; }
+    .element-val { font-size: 16px; font-weight: 700; margin-top: 4px; }
+
+    .wood { color: #56d364; }
+    .fire { color: #f85149; }
+    .earth { color: #f1e05a; }
+    .metal { color: #e6edf3; }
+    .water { color: #58a6ff; }
+
+    .fortune-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 10px;
+    }
+    .fortune-box h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .fortune-box p {
+      font-size: 14px;
+      color: #c9d1d9;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 16px 0 24px;
+    }
+
+    @media (max-width: 520px) {
+      .form-row { grid-template-columns: 1fr; }
+      .pillar-hanja { font-size: 20px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- 1. GNB -->
-<header>
-  <div class="logo">🫧 CRAZY ARCADE</div>
-  <nav>
-    <a href="#about">게임소개</a>
-    <a href="#guide">조작법 & 아이템</a>
-    <a href="#play" class="btn-nav-play">지금 플레이</a>
-  </nav>
-</header>
+  <div class="container">
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="subtitle">四柱命理 · 八字分析</div>
+      <h1>천명(天命) 사주명리관</h1>
+      <p>동양 철학의 오행 이론을 웹 기술로 시각화한 인터랙티브 사주 분석 서비스</p>
+    </header>
 
-<!-- 2. 히어로 섹션 -->
-<section class="hero" id="about">
-  <h1>추억의 물풍선 배틀, <span>크레이지 아케이드</span></h1>
-  <p>별도의 설치 없이 웹 브라우저에서 바로 친구와 함께 즐기는 1인 및 2인 대전 아케이드 게임입니다.</p>
-  <a href="#play" class="cta-btn">🎮 GAME START</a>
-</section>
+    <!-- 1. 사이트 및 프로젝트 소개 -->
+    <section class="card about-card">
+      <h2 class="section-title">소개 (About This Project)</h2>
+      <p class="about-text">
+        본 웹사이트는 전통 사주명리학의 천간·지지 및 오행(목·화·토·금·수) 균형 원리를 데이터 알고리즘으로 구조화하여 브라우저에서 직접 분석하고 시각화할 수 있도록 구현한 <b>경영정보학부(MIS) 인터랙티브 웹 토이 프로젝트</b>입니다.
+      </p>
+      <div class="about-meta">
+        <div class="meta-item">개발 / 기획: <strong>이경민 (2002년생)</strong></div>
+        <div class="meta-item">소속 학과: <strong>경영정보학부 (MIS)</strong></div>
+        <div class="meta-item">학번: <strong>20245245</strong></div>
+        <div class="meta-item">활동 학회: <strong>와이번 (리서치 1팀)</strong></div>
+      </div>
+    </section>
 
-<!-- 3. 인게임 영역 -->
-<section class="play-section" id="play">
-  <div class="game-container">
-    <div class="game-toolbar">
-      <div class="status-badge">● HTML5 Web Canvas Engine</div>
-      <div style="font-size: 13px; color: var(--text-sub);">브라우저 직접 플레이 지원</div>
-    </div>
-    <div id="wrap">
-      <canvas id="c"></canvas>
-      <div id="ov"></div>
-    </div>
+    <!-- 2. 사주 입력 카드 -->
+    <section class="card">
+      <h2 class="section-title">사주 감정 신청</h2>
+      <form id="sajuForm" class="form-group">
+        <div class="form-row">
+          <div>
+            <label for="userName">성함</label>
+            <input type="text" id="userName" placeholder="예: 이경민" required>
+          </div>
+          <div>
+            <label for="gender">성별</label>
+            <select id="gender">
+              <option value="남성">남성</option>
+              <option value="여성">여성</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="birthDate">생년월일 (양력)</label>
+            <input type="date" id="birthDate" value="2002-05-15" required>
+          </div>
+          <div>
+            <label for="birthTime">태어난 시간 (시지)</label>
+            <select id="birthTime">
+              <option value="0">자시 (23:30 ~ 01:29)</option>
+              <option value="1">축시 (01:30 ~ 03:29)</option>
+              <option value="2">인시 (03:30 ~ 05:29)</option>
+              <option value="3">묘시 (05:30 ~ 07:29)</option>
+              <option value="4">진시 (07:30 ~ 09:29)</option>
+              <option value="5" selected>사시 (09:30 ~ 11:29)</option>
+              <option value="6">오시 (11:30 ~ 13:29)</option>
+              <option value="7">미시 (13:30 ~ 15:29)</option>
+              <option value="8">신시 (15:30 ~ 17:29)</option>
+              <option value="9">유시 (17:30 ~ 19:29)</option>
+              <option value="10">술시 (19:30 ~ 21:29)</option>
+              <option value="11">해시 (21:30 ~ 23:29)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">사주 풀이 감정하기 🔮</button>
+      </form>
+    </section>
+
+    <!-- 3. 결과 영역 -->
+    <section id="resultArea" class="card">
+      <div style="border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+        <h3 id="resultTitle" style="font-family: 'Song Myung', serif; font-size: 22px; color: var(--gold);"></h3>
+        <p id="resultSubtitle" style="font-size: 13px; color: var(--text-muted); margin-top: 4px;"></p>
+      </div>
+
+      <!-- 사주 명식표 -->
+      <div>
+        <label>사주 명식표 (四柱)</label>
+        <div class="pillar-table">
+          <div class="pillar-col">
+            <div class="pillar-header">시주 (時柱)</div>
+            <div class="pillar-hanja" id="hourPillar">--</div>
+            <div class="pillar-korean" id="hourPillarKr">--</div>
+          </div>
+          <div class="pillar-col">
+            <div class="pillar-header">일주 (日柱)</div>
+            <div class="pillar-hanja" id="dayPillar">--</div>
+            <div class="pillar-korean" id="dayPillarKr">--</div>
+          </div>
+          <div class="pillar-col">
+            <div class="pillar-header">월주 (月柱)</div>
+            <div class="pillar-hanja" id="monthPillar">--</div>
+            <div class="pillar-korean" id="monthPillarKr">--</div>
+          </div>
+          <div class="pillar-col">
+            <div class="pillar-header">년주 (年柱)</div>
+            <div class="pillar-hanja" id="yearPillar">--</div>
+            <div class="pillar-korean" id="yearPillarKr">--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오행 에너지 -->
+      <div>
+        <label>오행 에너지 분포 (五行)</label>
+        <div class="element-grid">
+          <div class="element-card"><div class="element-name wood">목(木)</div><div class="element-val wood" id="wCount">0</div></div>
+          <div class="element-card"><div class="element-name fire">화(火)</div><div class="element-val fire" id="fCount">0</div></div>
+          <div class="element-card"><div class="element-name earth">토(土)</div><div class="element-val earth" id="eCount">0</div></div>
+          <div class="element-card"><div class="element-name metal">금(金)</div><div class="element-val metal" id="mCount">0</div></div>
+          <div class="element-card"><div class="element-name water">수(水)</div><div class="element-val water" id="waCount">0</div></div>
+        </div>
+      </div>
+
+      <!-- 상세 해설 -->
+      <div>
+        <div class="fortune-box">
+          <h4>🌟 타고난 본성과 기운</h4>
+          <p id="fIntro"></p>
+        </div>
+        <div class="fortune-box">
+          <h4>💼 직무·취업·학업 운세</h4>
+          <p id="fJob"></p>
+        </div>
+        <div class="fortune-box">
+          <h4>💰 재물운 및 비즈니스 조언</h4>
+          <p id="fWealth"></p>
+        </div>
+        <div class="fortune-box">
+          <h4>🌿 조화와 균형을 위한 개운법</h4>
+          <p id="fAdvice"></p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 천명 사주명리관 · Built by 이경민 (20245245) · Powered by GitHub Pages
+    </footer>
   </div>
-</section>
 
-<!-- 4. 가이드 섹션 -->
-<section class="guide-section" id="guide">
-  <h2 class="section-title">GAME GUIDE</h2>
-  <div class="guide-grid">
-    <div class="card">
-      <h3>🎮 조작법 안내</h3>
-      <ul>
-        <li><b>1인 플레이 (P1):</b> <span class="k">←↑↓→</span> 또는 <span class="k">WASD</span> 이동 / 풍선 설치: <span class="k">Space</span></li>
-        <li><b>2인 대전 (P2):</b> <span class="k">WASD</span> 이동 / 풍선 설치: <span class="k">F</span></li>
-        <li>물방울에 갇힌 상대를 터뜨리거나 4초가 지나면 탈락합니다.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🎒 파밍 아이템 안내</h3>
-      <ul>
-        <li><span class="item-badge">💧</span> <b>물풍선:</b> 설치할 수 있는 최대 물풍선 수가 1개 증가합니다.</li>
-        <li><span class="item-badge">🌊</span> <b>물줄기:</b> 물풍선 폭발 범위가 1칸 늘어납니다.</li>
-        <li><span class="item-badge">👟</span> <b>롤러스케이트:</b> 캐릭터 이동 속도가 상승합니다.</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>🏆 게임 규칙 & 팁</h3>
-      <ul>
-        <li>블록을 파괴하면 일정 확률로 강력한 아이템이 등장합니다.</li>
-        <li>봇 인공지능(AI)은 스스로 위험을 감지하고 아이템을 수집합니다.</li>
-        <li>자신이 설치한 물풍선에 갇히지 않도록 주의하세요!</li>
-      </ul>
-    </div>
-  </div>
-</section>
+  <script>
+    const CHEONGAN = ['갑(甲)', '을(乙)', '병(丙)', '정(丁)', '무(戊)', '기(己)', '경(庚)', '신(辛)', '임(壬)', '계(癸)'];
+    const JIJI = ['자(子)', '축(丑)', '인(寅)', '묘(卯)', '진(辰)', '사(巳)', '오(午)', '미(未)', '신(申)', '유(酉)', '술(戌)', '해(亥)'];
+    
+    const TG_ELEM = ['목', '목', '화', '화', '토', '토', '금', '금', '수', '수'];
+    const JJ_ELEM = ['수', '토', '목', '목', '토', '화', '화', '토', '금', '금', '토', '수'];
 
-<!-- 5. 푸터 -->
-<footer>
-  <div class="links">
-    <a href="#">이용약관</a>
-    <a href="#">개인정보처리방침</a>
-    <a href="#">고객지원</a>
-  </div>
-  <p>© 2026 CRAZY ARCADE Web Portfolio Project. All rights reserved.</p>
-  <p style="margin-top: 4px; font-size: 12px; color: #435b78;">해당 프로젝트는 HTML5 Canvas 기반 웹 게임 포트폴리오 데모 페이지입니다.</p>
-</footer>
+    const DAY_DESCS = [
+      { name: "갑목(甲木)", intro: "우뚝 솟은 거목과 같이 진취적이고 곧은 기운을 품고 있어, 주도적으로 프로젝트를 이끄는 리더십이 탁월합니다.", job: "기획, 신규 비즈니스 개발, 총괄 프로젝트 관리 분야에서 높은 역량을 발휘합니다.", wealth: "단기 투기보다는 장기적 안목으로 기반을 다질 때 재물이 튼튼해집니다." },
+      { name: "을목(乙木)", intro: "유연하고 강인한 화초처럼 현실 적응력과 유대감이 매우 뛰어납니다.", job: "리서치, 시장 분석, 협업 네트워크를 조율하는 분석 직무에 최적입니다.", wealth: "위기 관리 감각이 좋아 실속 있게 자산을 모으는 힘이 있습니다." },
+      { name: "병화(丙火)", intro: "온 세상을 비추는 태양처럼 명확하고 열정적이며 추진력이 강합니다.", job: "프레젠테이션, 마케팅, 대외 협력 및 데이터 시각화 분야에서 매력이 극대화됩니다.", wealth: "충동적인 지출을 관리하고 확실한 파이프라인을 구축하면 큰 결실을 봅니다." },
+      { name: "정화(丁火)", intro: "어둠을 밝히는 등불처럼 정밀하고 따뜻한 집중력을 가지고 있습니다.", job: "정밀 분석, IT 시스템 설계, 데이터 엔지니어링 등 디테일한 전문직에서 두각을 나타냅니다.", wealth: "꾸준한 저축과 철저한 분산 투자로 단단한 자산을 축적합니다." },
+      { name: "무토(戊土)", intro: "넓고 단단한 대지처럼 포용력이 넓고 신뢰감을 주는 묵직한 기운입니다.", job: "조직 관리, 플랫폼 구축, 전략 기획 등 큰 판을 설계하는 업무에 어울립니다.", wealth: "우량 자산과 장기 가치 중심의 안정적 투자가 가장 큰 성과를 냅니다." },
+      { name: "기토(己土)", intro: "비옥한 텃밭처럼 만물을 품고 길러내는 세심함과 지혜를 겸비했습니다.", job: "컨설팅, 비즈니스 리서치, 프로세스 최적화 분야에서 실력을 증명합니다.", wealth: "작은 이익도 놓치지 않고 차곡차곡 쌓아 올리는 실속형 부자의 구조입니다." },
+      { name: "경금(庚金)", intro: "강철과 원석처럼 결단력이 빠르고 맺고 끊음이 확실한 결기 있는 성향입니다.", job: "데이터 기반 의사결정, 리스크 관리, 감사 및 시스템 구조화 직무에 탁월합니다.", wealth: "과감한 판단력과 명확한 원칙을 지킬 때 재물운이 급상승합니다." },
+      { name: "신금(辛金)", intro: "빛나는 보석이나 정밀한 메스처럼 감각이 예리하고 완성도가 높습니다.", job: "고도화된 분석 모델링, UI/UX 기획, 품질 검증 등 섬세한 업무에 적합합니다.", wealth: "자신만의 희소성 있는 전문 기술 역량이 곧 가장 큰 자산이 됩니다." },
+      { name: "임수(壬水)", intro: "넓은 바다와 같이 깊은 지혜와 유연한 사고력을 지니고 있습니다.", job: "해외 비즈니스, 빅데이터 분석, 통찰력과 전략을 요하는 연구 직무에 잘 맞습니다.", wealth: "흐르는 물처럼 유동성을 다루는 감각이 뛰어나며 재물의 그릇이 큽니다." },
+      { name: "계수(癸水)", intro: "대지를 촉촉하게 적시는 단비처럼 다정하고 직관력이 뛰어난 지략가입니다.", job: "시장 트렌드 분석, 사용자 행동 리서치, 전략 컨설팅에서 남다른 통찰을 보입니다.", wealth: "정보력과 날카로운 직관을 결합해 남들이 보지 못하는 기회를 포착합니다." }
+    ];
 
-<!-- 게임 스크립트 로직 (기존과 동일) -->
-<script>
-const T=40,W=15,H=13,OY=62;
-const cv=document.getElementById('c'),g=cv.getContext('2d'),ov=document.getElementById('ov');
-cv.width=W*T;cv.height=H*T+OY;
-const COLORS=['#ff4d4d','#4d8dff','#3ddc84','#ffd13d'];
-const NAMES=['빨강','파랑','초록','노랑'];
-const SP=[[0,0],[W-1,H-1],[W-1,0],[0,H-1]];
-const D4=[[1,0],[-1,0],[0,1],[0,-1]];
-const DIRS={l:[-1,0],r:[1,0],u:[0,-1],d:[0,1]};
-let grid,balloons,flames,items,players,parts,state='menu',mode=1,time=0,endT=0,result='',clock=0;
-const stacks=[[],[]];
+    document.getElementById('sajuForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('userName').value.trim();
+      const gender = document.getElementById('gender').value;
+      const bDate = new Date(document.getElementById('birthDate').value);
+      const hIdx = parseInt(document.getElementById('birthTime').value);
 
-let ac;
-function beep(f=300,d=.12,type='square',v=.04){try{ac=ac||new AudioContext();const o=ac.createOscillator(),n=ac.createGain(),t=ac.currentTime;o.type=type;o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(Math.max(30,f/3),t+d);n.gain.setValueAtTime(v,t);n.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(n);n.connect(ac.destination);o.start();o.stop(t+d)}catch(e){}}
+      if (isNaN(bDate.getTime())) return;
 
-function start(m){
-  mode=m;
-  grid=[];
-  forlet y=0;y<H;y++=[];for(let x=0;x<W;x++)grid[y][x]=(x%2&&y%2)?1:(Math.random()<.62?2:0);}
-  for(const [sx,sy] of SP)for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(Math.abs(x-sx)+Math.abs(y-sy)<=2&&grid[y][x]==2)grid[y][x]=0;
-  balloons=[];flames=[];items=[];parts=[];
-  const ctrls=m==1?['h1','bot','bot','bot']:['h1','h2','bot','bot'];
-  players=ctrls.map((c,i)=>({i,ctrl:c,c:COLORS[i],x:(SP[i][0]+.5)*T,y:(SP[i][1]+.5)*T,spd:120,maxB:1,rng:2,alive:true,trap:0,face:[0,1],cd:0,idle:0,anim:0,moving:false,hunt:Math.random()<.4}));
-  stacks[0].length=stacks[1].length=0;
-  time=150;endT=0;result='';state='play';ov.style.display='none';
-}
-function menu(){
-  state='menu';ov.style.display='flex';
-  ov.innerHTML=`<h1>CRAZY ARCADE</h1><p>물풍선으로 블록을 부수고, 상대를 물방울에 가두세요!</p>
-  <button onclick="start(1)">1인 플레이 (vs 봇 3)</button>
-  <button onclick="start(2)">2인 대전 (+ 봇 2)</button>
-  <p><b>P1</b> 이동 <span class="k">←↑↓→</span> / <span class="k">WASD</span> · 풍선 <span class="k">Space</span><br>
-  <b>P2</b> 이동 <span class="k">WASD</span> · 풍선 <span class="k">F</span><br>
-  아이템: 💧풍선 +1 · 🌊물줄기 +1 · 👟속도 +1<br>
-  물방울에 갇힌 적을 몸으로 터뜨리면 탈락! (갇힌 지 4초 경과 시 자동 탈락)</p>`;
-}
-function endGame(txt,sub){
-  state='over';ov.style.display='flex';
-  ov.innerHTML=`<h2>${txt}</h2><p>${sub||''}</p><button onclick="start(mode)">다시 하기</button><button onclick="menu()">메뉴로</button>`;
-}
+      const year = bDate.getFullYear();
+      const month = bDate.getMonth() + 1;
 
-function solidAt(gx,gy,p){
-  if(gx<0||gy<0||gx>=W||gy>=H||grid[gy][gx])return true;
-  for(const b of balloons)if(b.gx==gx&&b.gy==gy&&!b.pass.includes(p))return true;
-  return false;
-}
-function blocked(p,nx,ny){
-  const h=14;
-  for(const sx of[-h,h])for(const sy of[-h,h])if(solidAt(Math.floor((nx+sx)/T),Math.floor((ny+sy)/T),p))return true;
-  return false;
-}
-function move(p,dx,dy,dt){
-  const s=p.spd*dt*(p.trap>0?.35:1);
-  if(dx){
-    const nx=p.x+dx*s;
-    if(!blocked(p,nx,p.y))p.x=nx;
-    else{const o=(Math.floor(p.y/T)+.5)*T-p.y;if(Math.abs(o)>.5&&Math.abs(o)<=16){const m=Math.sign(o)*Math.min(Math.abs(o),s);if(!blocked(p,p.x,p.y+m))p.y+=m;}}
-  }
-  if(dy){
-    const ny=p.y+dy*s;
-    if(!blocked(p,p.x,ny))p.y=ny;
-    else{const o=(Math.floor(p.x/T)+.5)*T-p.x;if(Math.abs(o)>.5&&Math.abs(o)<=16){const m=Math.sign(o)*Math.min(Math.abs(o),s);if(!blocked(p,p.x+m,p.y))p.x+=m;}}
-  }
-}
-function place(p){
-  if(state!='play'||!p||!p.alive||p.trap>0)return;
-  const gx=p.x/T|0,gy=p.y/T|0;
-  if(balloons.some(b=>b.gx==gx&&b.gy==gy)||balloons.filter(b=>b.o==p).length>=p.maxB)return;
-  balloons.push({gx,gy,t:2.4,o:p,r:p.rng,pass:players.filter(q=>q.alive&&Math.abs(q.x-(gx+.5)*T)<T/2+14&&Math.abs(q.y-(gy+.5)*T)<T/2+14)});
-  beep(420,.08,'sine',.05);
-}
-function addFlame(x,y){flames.push({gx:x,gy:y,t:.45});items=items.filter(i=>!(i.gx==x&&i.gy==y));}
-function boom(b){
-  balloons.splice(balloons.indexOf(b),1);beep(130,.3,'sawtooth',.06);
-  addFlame(b.gx,b.gy);
-  for(const [dx,dy] of D4)for(let i=1;i<=b.r;i++){
-    const x=b.gx+dx*i,y=b.gy+dy*i;
-    if(x<0||y<0||x>=W||y>=H||grid[y][x]==1)break;
-    ifgrid[y][x]==2[x]=0;addFlame(x,y);if(Math.random()<.35)items.push({gx:x,gy:y,k:'brs'[Math.random()*3|0]});break;}
-    const ob=balloons.find(q=>q.gx==x&&q.gy==y);
-    addFlame(x,y);
-    if(ob){ob.t=Math.min(ob.t,.04);break;}
-  }
-}
-function kill(p){
-  p.alive=false;beep(90,.5,'triangle',.07);
-  for(let i=0;i<22;i++){const a=Math.random()*6.28,v=60+Math.random()*140;parts.push({x:p.x,y:p.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,t:.7,c:i%2?p.c:'#9fe6ff'});}
-}
+      // 간지 계산
+      const yTg = (year - 4) % 10;
+      const yJj = (year - 4) % 12;
+      const mTg = (year * 2 + month) % 10;
+      const mJj = (month + 1) % 12;
+      const dSeed = Math.floor(bDate.getTime() / 86400000);
+      const dTg = Math.abs(dSeed % 10);
+      const dJj = Math.abs(dSeed % 12);
+      const hTg = (dTg * 2 + hIdx) % 10;
+      const hJj = hIdx % 12;
 
-const solid=(x,y)=>x<0||y<0||x>=W||y>=H||grid[y][x]||balloons.some(b=>b.gx==x&&b.gy==y);
-function danger(extra){
-  const d=new Set(),add=(x,y)=>d.add(y*W+x);
-  for(const f of flames)add(f.gx,f.gy);
-  for(const b of extra?[...balloons,extra]:balloons){
-    add(b.gx,b.gy);
-    for(const [dx,dy] of D4)for(let i=1;i<=b.r;i++){
-      const x=b.gx+dx*i,y=b.gy+dy*i;
-      if(x<0||y<0||x>=W||y>=H||grid[y][x])break;
-      add(x,y);
-      if(balloons.some(q=>q.gx==x&&q.gy==y))break;
-    }
-  }
-  return d;
-}
-function bfs(sx,sy,goal,avoid,maxD=16){
-  const q=[[sx,sy,null,0]],seen=new Set([sy*W+sx]);
-  for(let i=0;i<q.length;i++){
-    const [x,y,f,d]=q[i];
-    if(goal(x,y))return{f,d};
-    if(d>=maxD)continue;
-    for(const [dx,dy] of D4){
-      const nx=x+dx,ny=y+dy,k=ny*W+nx;
-      if(solid(nx,ny)||seen.has(k)||avoid.has(k))continue;
-      seen.add(k);q.push([nx,ny,f||[nx,ny],d+1]);
-    }
-  }
-  return null;
-}
-function ai(p,dt){
-  if(p.trap>0)return[0,0];
-  const gx=p.x/T|0,gy=p.y/T|0,me=gy*W+gx;
-  const dg=danger(),fl=new Set(flames.map(f=>f.gy*W+f.gx));
-  let tgt=null;
-  if(dg.has(me)){
-    const r=bfs(gx,gy,(x,y)=>!dg.has(y*W+x),fl);tgt=r&&r.f;
-  }else{
-    p.cd-=dt;
-    const canB=balloons.filter(b=>b.o==p).length<p.maxB;
-    const en=players.filter(q=>q!=p&&q.alive);
-    if(p.cd<=0&&canB){
-      const nearBlock=D4.some(([dx,dy])=>grid[gy+dy]&&grid[gy+dy][gx+dx]==2);
-      const nearEnemy=en.some(q=>{const ex=q.x/T|0,ey=q.y/T|0;return(ex==gx&&Math.abs(ey-gy)<=p.rng)||(ey==gy&&Math.abs(ex-gx)<=p.rng)});
-      if(nearBlock||nearEnemy){
-        const d2=danger({gx,gy,r:p.rng});
-        const r=bfs(gx,gy,(x,y)=>!d2.has(y*W+x),fl,6);
-        if(r){place(p);p.cd=.5+Math.random()*.9;return[0,0];}
-      }
-    }
-    const trapped=en.find(q=>q.trap>0);
-    let r=null;
-    if(trapped){const tx=trapped.x/T|0,ty=trapped.y/T|0;r=bfs(gx,gy,(x,y)=>x==tx&&y==ty,dg);}
-    if(!r)r=bfs(gx,gy,(x,y)=>items.some(i=>i.gx==x&&i.gy==y),dg,7);
-    if(!r&&p.hunt&&en.length){r=bfs(gx,gy,(x,y)=>en.some(q=>(q.x/T|0)==x&&(q.y/T|0)==y),dg);}
-    if(!r)r=bfs(gx,gy,(x,y)=>D4.some(([dx,dy])=>grid[y+dy]&&grid[y+dy][x+dx]==2),dg);
-    if(r&&r.f)tgt=r.f;
-    if(!tgt){
-      p.idle+=dt;
-      if(p.idle>1.2){
-        const opts=D4.map(([dx,dy])=>[gx+dx,gy+dy]).filter(([x,y])=>!solid(x,y)&&!dg.has(y*W+x));
-        if(opts.length)tgt=opts[Math.random()*opts.length|0];
-        if(p.idle>1.8){p.idle=0;p.hunt=Math.random()<.5;}
-      }
-    }else p.idle=0;
-  }
-  if(!tgt)return[0,0];
-  const cx=(tgt[0]+.5)*T,cy=(tgt[1]+.5)*T,ax=(gx+.5)*T,ay=(gy+.5)*T;
-  if(tgt[0]!=gx)return Math.abs(p.y-ay)>3?[0,Math.sign(ay-p.y)]:[Math.sign(cx-p.x),0];
-  return Math.abs(p.x-ax)>3?[Math.sign(ax-p.x),0]:[0,Math.sign(cy-p.y)];
-}
+      const fmt = (tg, jj) => `${CHEONGAN[tg][2]}${JIJI[jj][2]}`;
+      const fmtKr = (tg, jj) => `${CHEONGAN[tg].slice(0,1)}${JIJI[jj].slice(0,1)}`;
 
-function update(dt){
-  time-=dt;
-  for(const p of players){
-    if(!p.alive)continue;
-    p.anim+=dt;
-    let dx=0,dy=0;
-    if(p.ctrl=='bot'){[dx,dy]=ai(p,dt);}
-    else{const st=stacks[p.ctrl=='h1'?0:1],d=st[st.length-1];if(d){dx=DIRS[d][0];dy=DIRS[d][1];}}
-    p.moving=!!(dx||dy);
-    if(p.moving)p.face=[dx,dy];
-    move(p,dx,dy,dt);
-    const gx=p.x/T|0,gy=p.y/T|0;
-    const it=items.findIndex(i=>i.gx==gx&&i.gy==gy);
-    if(it>=0){
-      const k=items[it].k;items.splice(it,1);beep(900,.12,'sine',.05);
-      if(k=='b')p.maxB=Math.min(7,p.maxB+1);else if(k=='r')p.rng=Math.min(8,p.rng+1);else p.spd=Math.min(230,p.spd+22);
-    }
-    if(p.trap<=0&&flames.some(f=>f.gx==gx&&f.gy==gy)){p.trap=4;beep(600,.3,'sine',.06);}
-    if(p.trap>0){
-      p.trap-=dt;
-      if(p.trap<=0)kill(p);
-      else if(players.some(q=>q!=p&&q.alive&&q.trap<=0&&Math.hypot(q.x-p.x,q.y-p.y)<26))kill(p);
-    }
-  }
-  for(const b of [...balloons]){b.t-=dt;if(b.t<=0&&balloons.includes(b))boom(b);}
-  for(const b of balloons)b.pass=b.pass.filter(q=>q.alive&&Math.abs(q.x-(b.gx+.5)*T)<T/2+14&&Math.abs(q.y-(b.gy+.5)*T)<T/2+14);
-  for(const f of flames)f.t-=dt;
-  flames=flames.filter(f=>f.t>0);
-  for(const q of parts){q.t-=dt;q.x+=q.vx*dt;q.y+=q.vy*dt;q.vx*=.95;q.vy*=.95;}
-  parts=parts.filter(q=>q.t>0);
-  if(!endT){
-    const alive=players.filter(p=>p.alive);
-    if(alive.length<=1){
-      endT=1.6;
-      const w=alive[0];
-      result=!w?'draw':(w.ctrl=='bot'?'bot'+w.i:w.ctrl);
-    }else if(time<=0){endT=.5;result='draw';}
-  }else{
-    endT-=dt;
-    if(endT<=0){
-      if(result=='draw')endGame('무승부','아무도 끝까지 살아남지 못했어요.');
-      else if(result=='h1')endGame(mode==1?'승리! 🎉':'P1 (빨강) 승리! 🎉','물풍선 마스터!');
-      else if(result=='h2')endGame('P2 (파랑) 승리! 🎉','물풍선 마스터!');
-      else endGame(mode==1?'패배...':'봇 승리','봇 '+NAMES[+result.slice(3)]+'이(가) 마지막까지 살아남았어요.');
-    }
-  }
-}
+      document.getElementById('yearPillar').textContent = fmt(yTg, yJj);
+      document.getElementById('yearPillarKr').textContent = fmtKr(yTg, yJj);
+      document.getElementById('monthPillar').textContent = fmt(mTg, mJj);
+      document.getElementById('monthPillarKr').textContent = fmtKr(mTg, mJj);
+      document.getElementById('dayPillar').textContent = fmt(dTg, dJj);
+      document.getElementById('dayPillarKr').textContent = fmtKr(dTg, dJj);
+      document.getElementById('hourPillar').textContent = fmt(hTg, hJj);
+      document.getElementById('hourPillarKr').textContent = fmtKr(hTg, hJj);
 
-function circ(x,y,r,c){g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,6.283);g.fill();}
-function rr(x,y,w,h,r,c){g.fillStyle=c;g.beginPath();g.roundRect(x,y,w,h,r);g.fill();}
-function drawHUD(){
-  g.fillStyle='#14305f';g.fillRect(0,0,cv.width,OY);
-  g.fillStyle='#ffc83d';g.font='bold 16px sans-serif';g.textAlign='left';g.textBaseline='middle';
-  g.fillText('CRAZY ARCADE',10,14);
-  const t=Math.max(0,time)|0;
-  g.textAlign='right';g.fillStyle='#fff';g.fillText('⏱ '+(t/60|0)+':'+String(t%60).padStart(2,'0'),cv.width-10,14);
-  players.forEach((p,i)=>{
-    const x=i*150+4;
-    rr(x,28,142,30,8,p.alive?'#1f4a8f':'#222b3d');
-    circ(x+14,43,9,p.alive?p.c:'#555');
-    g.textAlign='left';g.font='bold 12px sans-serif';g.fillStyle=p.alive?'#fff':'#888';
-    const nm=(p.ctrl=='bot'?'🤖':p.ctrl=='h1'?'P1':'P2')+' '+NAMES[i];
-    g.fillText(nm,x+28,37);
-    g.font='11px sans-serif';
-    g.fillText(p.alive?`💧${p.maxB} 🌊${p.rng} 👟${(p.spd-120)/22+1|0}`:'💀 탈락',x+28,51);
-  });
-}
-function drawPlayer(p,now){
-  if(!p.alive)return;
-  const wob=p.trap>0?Math.sin(now*8)*2:0;
-  const x=p.x,y=p.y+wob+(p.moving&&p.trap<=0?Math.sin(p.anim*14)*1.5:0);
-  g.fillStyle='rgba(0,0,0,.25)';g.beginPath();g.ellipse(p.x,p.y+14,13,5,0,0,6.283);g.fill();
-  circ(x,y-1,15,'#222');circ(x,y-1,13.5,p.c);
-  circ(x,y+1,10,'#ffe2bd');
-  g.fillStyle=p.c;g.beginPath();g.arc(x,y-3,12,3.4,6.02);g.fill();
-  const fx=p.face[0]*2.5,fy=p.face[1]*2;
-  circ(x-4+fx,y+1+fy,2.1,'#222');circ(x+4+fx,y+1+fy,2.1,'#222');
-  if(p.trap>0){
-    const a=.35+.15*Math.sin(now*10);
-    g.fillStyle=`rgba(120,210,255,${a})`;g.beginPath();g.arc(x,y,23,0,6.283);g.fill();
-    g.strokeStyle='#eaffff';g.lineWidth=2;g.stroke();
-    g.strokeStyle='#fff';g.lineWidth=3;g.beginPath();g.arc(x,y-28,6,-1.57,-1.57+6.283*p.trap/4);g.stroke();
-  }
-  if(p.ctrl!='bot'){g.fillStyle='#fff';g.font='bold 11px sans-serif';g.textAlign='center';g.fillText(p.ctrl=='h1'?'P1':'P2',x,y-24);}
-}
-function draw(now){
-  g.clearRect(0,0,cv.width,cv.height);
-  if(!grid){g.fillStyle='#0d1b3a';g.fillRect(0,0,cv.width,cv.height);return;}
-  drawHUD();
-  g.save();g.translate(0,OY);
-  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
-    g.fillStyle=(x+y)%2?'#bfe9a0':'#b2de93';g.fillRect(x*T,y*T,T,T);
-    const v=grid[y][x];
-    if(v==1){
-      rr(x*T+1,y*T+1,T-2,T-2,5,'#3b4b9e');rr(x*T+3,y*T+3,T-6,T-10,4,'#6f82e0');
-      g.fillStyle='#a9b6ff';g.fillRect(x*T+7,y*T+7,T-14,3);
-    }else if(v==2){
-      rr(x*T+2,y*T+3,T-4,T-4,4,'#9a5a1b');rr(x*T+2,y*T+2,T-4,T-7,4,'#e8a04a');
-      g.strokeStyle='#b8741f';g.lineWidth=2;g.strokeRect(x*T+8,y*T+8,T-16,T-18);
-      g.fillStyle='#ffd08a';g.fillRect(x*T+5,y*T+5,T-10,2);
-    }
-  }
-  for(const i of items){
-    const cx=(i.gx+.5)*T,cy=(i.gy+.5)*T+Math.sin(now*4+i.gx)*2;
-    circ(cx,cy,14,'#fff');circ(cx,cy,12,i.k=='b'?'#3a8dff':i.k=='r'?'#18b5c9':'#ff8c3a');
-    g.font='15px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillStyle='#fff';
-    g.fillText(i.k=='b'?'💧':i.k=='r'?'🌊':'👟',cx,cy+1);
-  }
-  for(const b of balloons){
-    const cx=(b.gx+.5)*T,cy=(b.gy+.5)*T,pul=Math.sin(now*9+b.gx)*1.5,fl=b.t<.7&&((now*14)|0)%2;
-    g.fillStyle='rgba(0,0,0,.2)';g.beginPath();g.ellipse(cx,cy+13,12,4,0,0,6.283);g.fill();
-    circ(cx,cy,15+pul,'#1b4fa8');circ(cx,cy,13.5+pul,fl?'#ff9a9a':'#47a8ff');
-    circ(cx-4,cy-5,4,'rgba(255,255,255,.8)');
-    g.fillStyle='#1b4fa8';g.beginPath();g.moveTo(cx-3,cy-14);g.lineTo(cx+3,cy-14);g.lineTo(cx,cy-18);g.fill();
-  }
-  for(const f of flames){
-    const a=Math.min(1,f.t/.3);
-    rr(f.gx*T+3,f.gy*T+3,T-6,T-6,12,`rgba(60,190,255,${a*.9})`);
-    rr(f.gx*T+10,f.gy*T+10,T-20,T-20,8,`rgba(255,255,255,${a*.9})`);
-  }
-  players.slice().sort((a,b)=>a.y-b.y).forEach(p=>drawPlayer(p,now));
-  for(const q of parts){g.globalAlpha=Math.min(1,q.t*2);circ(q.x,q.y,3.5,q.c);}
-  g.globalAlpha=1;
-  g.restore();
-}
+      // 오행 카운트
+      const counts = { '목': 0, '화': 0, '토': 0, '금': 0, '수': 0 };
+      [yTg, mTg, dTg, hTg].forEach(t => counts[TG_ELEM[t]]++);
+      [yJj, mJj, dJj, hJj].forEach(j => counts[JJ_ELEM[j]]++);
 
-const KM={ArrowLeft:[0,'l'],ArrowRight:[0,'r'],ArrowUp:[0,'u'],ArrowDown:[0,'d'],KeyA:[1,'l'],KeyD:[1,'r'],KeyW:[1,'u'],KeyS:[1,'d']};
-addEventListener('keydown',e=>{
-  if(KM[e.code]){
-    e.preventDefault();
-    const pi=mode==1?0:KM[e.code][0],st=stacks[pi],d=KM[e.code][1];
-    if(!st.includes(d))st.push(d);
-  }else if(e.code=='Space'){e.preventDefault();if(!e.repeat&&state=='play')place(players[0]);}
-  else if(e.code=='KeyF'&&!e.repeat&&state=='play')place(mode==1?players[0]:players[1]);
-});
-addEventListener('keyup',e=>{
-  if(KM[e.code]){const pi=mode==1?0:KM[e.code][0],st=stacks[pi],i=st.indexOf(KM[e.code][1]);if(i>=0)st.splice(i,1);}
-});
-addEventListener('blur',()=>{stacks[0].length=stacks[1].length=0;});
+      document.getElementById('wCount').textContent = counts['목'];
+      document.getElementById('fCount').textContent = counts['화'];
+      document.getElementById('eCount').textContent = counts['토'];
+      document.getElementById('mCount').textContent = counts['금'];
+      document.getElementById('waCount').textContent = counts['수'];
 
-let last=performance.now();
-function loop(t){
-  const dt=Math.min(.05,(t-last)/1000);last=t;
-  if(state=='play'||state=='over'&&endT>0)update(dt);
-  else if(state=='over'){for(const q of parts){q.t-=dt;}}
-  draw(t/1000);
-  requestAnimationFrame(loop);
-}
-menu();
-requestAnimationFrame(loop);
-</script>
+      // 일간 풀이 매핑
+      const dayInfo = DAY_DESCS[dTg];
+      document.getElementById('resultTitle').textContent = `${name} 님의 사주 감정서 (${gender})`;
+      document.getElementById('resultSubtitle').textContent = `일간(日干): ${dayInfo.name} · 오행의 조화와 기운`;
+      document.getElementById('fIntro').textContent = dayInfo.intro;
+      document.getElementById('fJob').textContent = `${dayInfo.job} 특히 데이터 리서치와 협업 환경에서 본인의 장점이 두드러집니다.`;
+      document.getElementById('fWealth').textContent = dayInfo.wealth;
+
+      const maxElem = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+      const adviceMap = {
+        '목': "나무의 기운이 강하니 유연한 휴식과 스트레스 관리가 행운을 부릅니다.",
+        '화': "불의 열정이 가득하니 성급한 판단을 피하고 차분한 검토가 길합니다.",
+        '토': "흙의 포용력이 두터우니 상황 변화에 유연하게 대처하면 큰 성과를 냅니다.",
+        '금': "쇠의 결단력이 강하니 주위 동료에게 따뜻한 격려를 건네면 인덕이 쌓입니다.",
+        '수': "물의 지혜가 넘치니 생각을 주저 없이 실행에 옮기는 것이 최고의 무기입니다."
+      };
+      document.getElementById('fAdvice').textContent = `가장 왕성한 기운은 [${maxElem}]의 에너지입니다. ${adviceMap[maxElem]}`;
+
+      const res = document.getElementById('resultArea');
+      res.style.display = 'flex';
+      res.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
