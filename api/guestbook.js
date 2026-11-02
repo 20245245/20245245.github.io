@@ -90,7 +90,7 @@ module.exports = async function handler(req, res) {
       .limit(LIST_LIMIT);
 
     if (error) {
-      return sendJson(res, 500, { error: '글을 불러오지 못했습니다.' });
+      return sendJson(res, 500, { error: '글을 불러오지 못했습니다.', debug: error.message });
     }
     return sendJson(res, 200, { entries: data || [] });
   }
@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
       .single();
 
     if (error) {
-      return sendJson(res, 500, { error: '저장에 실패했습니다. 잠시 후 다시 시도해주세요.' });
+      return sendJson(res, 500, { error: '저장에 실패했습니다. 잠시 후 다시 시도해주세요.', debug: error.message });
     }
     return sendJson(res, 201, { entry: data });
   }
