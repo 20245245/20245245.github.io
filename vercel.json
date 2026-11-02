@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "functions": {
+    "api/guestbook.js": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  }
+}

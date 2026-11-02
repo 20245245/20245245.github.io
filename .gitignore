@@ -1,0 +1,11 @@
+# Local Kiro connection configuration and private project-note registration
+.kiro/settings/mcp.json
+.kiro/steering/project-notes.md
+
+# Node / Vercel
+node_modules/
+.vercel/
+
+# Environment variables (secrets never committed)
+.env
+.env*.local

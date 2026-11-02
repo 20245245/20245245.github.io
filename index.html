@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#faf9f6"><meta name="description" content="태어난 날에 담긴 나의 결. 온결에서 사주 원국과 오행을 쉽고 차분하게 만나보세요.">
 <title>온결 — 태어난 날에 담긴, 나의 결</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
-<script defer src="vendor/lunar.js"></script><script defer src="engine.js"></script><script defer src="romance.js"></script><script defer src="report.js"></script><script defer src="insights.js"></script><script defer src="app.js"></script>
+<script defer src="vendor/lunar.js"></script><script defer src="engine.js"></script><script defer src="romance.js"></script><script defer src="report.js"></script><script defer src="insights.js"></script><script defer src="app.js"></script><script defer src="guestbook.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문으로 이동</a>
@@ -22,6 +22,18 @@
 <section class="discover shell" id="discover"><div class="section-heading"><div><span class="eyebrow">A LITTLE MORE ABOUT YOU</span><h2>한 장씩 펼치는, 나의 이야기</h2></div><p>복잡한 사주도 차근차근 들여다보면<br>조금 더 친숙해질 거예요.</p></div><div class="feature-grid"><article><span class="feature-icon icon-green">八</span><span class="feature-number">01</span><h3>태어난 날의 여덟 글자</h3><p>년·월·일·시 네 개의 기둥으로<br>나의 사주 원국을 한눈에 살펴봐요.</p><span class="feature-tag">사주 원국 · 나의 일간</span></article><article><span class="feature-icon icon-yellow">◎</span><span class="feature-number">02</span><h3>나를 이루는 다섯 기운</h3><p>목·화·토·금·수의 분포를 보고<br>내 안의 서로 다른 결을 알아봐요.</p><span class="feature-tag">오행 분포 · 성격과 연애의 결</span></article><article><span class="feature-icon icon-purple">✧</span><span class="feature-number">03</span><h3>한자에서 일상의 언어로</h3><p>대운과 올해·내년의 흐름까지.<br>낯선 단어에는 쉬운 설명을 곁들였어요.</p><span class="feature-tag">쉬운 풀이 · 계산 기준 공개</span></article></div></section>
 <section id="guide" class="guide shell"><div><span class="eyebrow">BEFORE WE BEGIN</span><h2>궁금한 것부터,<br>가볍게 풀어볼까요?</h2><p>처음이어도 괜찮아요.<br>알고 있는 만큼만 들려주세요.</p></div><div class="faq"><details><summary>태어난 시간을 몰라도 볼 수 있나요?<span>+</span></summary><p>네. ‘시간을 몰라요’를 선택하면 시주는 미상으로 표시하고, 나머지 세 기둥의 오행을 보여드려요. 다만 자정이나 절기 경계에 태어났다면 일주·월주·년주도 달라질 수 있어요.</p></details><details><summary>양력과 음력 모두 지원하나요?<span>+</span></summary><p>현재 버전은 1970~2026년 한국 출생자의 양력 입력을 지원해요. 음력은 한국 음양력 변환 자료를 검증한 뒤 지원할 예정입니다. 음력 생일은 확인된 양력 날짜로 변환해서 입력해주세요.</p></details><details><summary>다른 만세력과 결과가 다를 수 있나요?<span>+</span></summary><p>출생지 보정, 서머타임, 자시 경계와 날짜가 바뀌는 기준에 따라 달라질 수 있어요. 온결은 적용 기준과 보정 시각을 결과에서 함께 보여드려요. 아래 ‘계산 기준’에서 자세히 확인할 수 있습니다.</p></details><details><summary>입력한 생년월일은 저장되나요?<span>+</span></summary><p>입력 정보는 서버에 전송하거나 브라우저 저장소에 보관하지 않아요. 결과를 보는 동안 현재 페이지의 메모리에서만 사용하며, 새로고침하면 사라집니다.</p></details></div></section>
 <section class="closing shell"><span aria-hidden="true">✦</span><h2>당신의 시작에는,<br>어떤 이야기가 담겨 있을까요?</h2><a class="button primary" href="#form">내 이야기 만나러 가기 <span>↗</span></a></section>
+<section id="guestbook" class="guestbook shell" aria-labelledby="gb-title">
+<div class="section-heading"><div><span class="eyebrow">LEAVE A LITTLE NOTE</span><h2 id="gb-title">온결에 남기는, 한 줄의 결</h2></div><p>온결을 다녀간 당신의 짧은 인사를 남겨주세요.<br>다른 분들이 남긴 글도 함께 볼 수 있어요.</p></div>
+<form id="gb-form" class="gb-form" autocomplete="off">
+<div class="gb-fields">
+<div class="field"><label for="gb-nickname">별명 <span class="required">*</span></label><input id="gb-nickname" name="nickname" type="text" minlength="2" maxlength="12" placeholder="2~12자" required></div>
+<div class="field gb-message-field"><label for="gb-message">한 줄 메시지 <span class="required">*</span></label><input id="gb-message" name="message" type="text" minlength="1" maxlength="100" placeholder="1~100자의 짧은 인사" required></div>
+</div>
+<div class="gb-actions"><button id="gb-submit" class="button primary" type="submit">등록하기 <span>→</span></button><p id="gb-status" class="gb-status" role="status" aria-live="polite"></p></div>
+<p class="form-footnote">실명이나 연락처는 적지 말아주세요. 입력한 글은 글자 그대로 안전하게 표시돼요.</p>
+</form>
+<ul id="gb-list" class="gb-list" aria-label="방명록 목록"></ul>
+</section>
 </section>
 <section id="form-view" class="view" hidden><div class="form-layout shell"><aside class="form-aside"><a href="#home" class="back-link">← 처음으로</a><span class="eyebrow">YOUR STORY STARTS HERE</span><h1>당신의 이야기는,<br>어느 날 시작됐나요?</h1><p>태어난 날과 시간을 알려주세요.<br>그날의 기운을 차근차근 펼쳐드릴게요.</p><div class="form-art" aria-hidden="true"><span>✳</span><i>모든 날에는 저마다의 빛이 있어요</i></div><div class="privacy-note"><span>◈</span><p>입력한 정보는 서버로 보내지 않아요.<br>오직 지금, 나의 이야기를 읽는 데만 사용해요.</p></div></aside>
 <form id="birth-form" class="form-card"><div class="step-label"><span>01 정보 입력</span><span>02 확인</span><span>03 나의 사주</span></div><h2>나의 기본 정보</h2><p class="form-lead">이름은 별명이어도 좋아요.</p><div class="field"><label for="name">이름 또는 별명 <small>선택</small></label><input id="name" name="name" maxlength="12" placeholder="어떻게 불러드릴까요?" autocomplete="off"></div>

@@ -1,0 +1,13 @@
+{
+  "name": "ongyeol-guestbook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "온결 사주 홈페이지 - Vercel 서버 함수 + Supabase 방명록",
+  "scripts": {
+    "test": "node tests/engine.test.cjs && node tests/forecast.test.cjs && node tests/report.test.cjs && node tests/romance.test.cjs",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.45.4"
+  }
+}
