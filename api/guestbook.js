@@ -74,7 +74,30 @@ function validateEntry(input) {
   return { value: { nickname: nicknameRaw, message: messageRaw } };
 }
 
+// GitHub Pages 에서 열린 페이지가 이 함수를 호출할 수 있도록 허용하는 출처 목록
+const ALLOWED_ORIGINS = [
+  'https://20245245.github.io',
+];
+
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+  }
+}
+
 module.exports = async function handler(req, res) {
+  applyCors(req, res);
+
+  // 브라우저의 CORS 사전 확인(preflight) 요청 처리
+  if (req.method === 'OPTIONS') {
+    res.statusCode = 204;
+    return res.end();
+  }
+
   const supabase = getClient();
   if (!supabase) {
     return sendJson(res, 500, {
@@ -90,7 +113,7 @@ module.exports = async function handler(req, res) {
       .limit(LIST_LIMIT);
 
     if (error) {
-      return sendJson(res, 500, { error: '글을 불러오지 못했습니다.', debug: error.message });
+      return sendJson(res, 500, { error: '글을 불러오지 못했습니다.' });
     }
     return sendJson(res, 200, { entries: data || [] });
   }
@@ -109,7 +132,7 @@ module.exports = async function handler(req, res) {
       .single();
 
     if (error) {
-      return sendJson(res, 500, { error: '저장에 실패했습니다. 잠시 후 다시 시도해주세요.', debug: error.message });
+      return sendJson(res, 500, { error: '저장에 실패했습니다. 잠시 후 다시 시도해주세요.' });
     }
     return sendJson(res, 201, { entry: data });
   }

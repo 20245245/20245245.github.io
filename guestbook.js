@@ -14,6 +14,12 @@
 
   const NICK_MIN = 2, NICK_MAX = 12, MSG_MIN = 1, MSG_MAX = 100;
 
+  // API 위치: Vercel 에는 서버 함수가 있지만 GitHub Pages(github.io)에는 없다.
+  // GitHub Pages 에서 열리면 Vercel 배포 주소의 API 를 호출해 동일하게 동작시킨다.
+  const VERCEL_ORIGIN = 'https://20245245githubio.vercel.app';
+  const API_BASE = location.hostname.endsWith('github.io') ? VERCEL_ORIGIN : '';
+  const API_URL = API_BASE + '/api/guestbook';
+
   // 사용자 입력을 HTML 이 아닌 글자로 안전하게 표시
   const esc = s => String(s).replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -53,7 +59,7 @@
   async function loadEntries() {
     listEl.innerHTML = '<li class="gb-empty">불러오는 중…</li>';
     try {
-      const res = await fetch('/api/guestbook', { headers: { 'Accept': 'application/json' } });
+      const res = await fetch(API_URL, { headers: { 'Accept': 'application/json' } });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || '목록을 불러오지 못했어요.');
       renderList(data.entries);
@@ -88,7 +94,7 @@
     setStatus('저장 중…', 'pending');
 
     try {
-      const res = await fetch('/api/guestbook', {
+      const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nickname, message }),
