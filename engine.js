@@ -24,25 +24,31 @@ function compute(input){
  const [y,m,d]=input.date.split('-').map(Number),check=new Date(Date.UTC(y,m-1,d));
  if(y<1970||y>2026||check.getUTCFullYear()!==y||check.getUTCMonth()+1!==m||check.getUTCDate()!==d)throw new Error('1970~2026년의 올바른 양력 날짜를 입력해주세요.');
  if(!CITIES[input.city])throw new Error('출생 도시를 선택해주세요.');
- if(!input.unknown&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(input.time||''))throw new Error('태어난 시간을 24시간제로 입력해주세요.');
- const [h,min]=(input.unknown?'12:00':input.time).split(':').map(Number),wall=Date.UTC(y,m-1,d,h,min),resolved=resolveKoreanTime(wall);
+ // 시간대(두 시간 구간) 선택 모드: input.timeBranch 0~11 (자시=0). 정확한 분이 없으므로 경도·균시차 보정을 적용하지 않고 선택한 시지를 그대로 사용한다.
+ const branchMode=!input.unknown&&input.timeBranch!=null;
+ if(branchMode&&!(Number.isInteger(input.timeBranch)&&input.timeBranch>=0&&input.timeBranch<=11))throw new Error('태어난 시간대를 선택해주세요.');
+ if(!input.unknown&&!branchMode&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(input.time||''))throw new Error('태어난 시간을 선택해주세요.');
+ // 시간대 선택 시 그 구간의 시작 시각을 대표값으로 쓴다(시작 포함, 종료 미포함). 자시(0)는 전날 23:00을 가리키지 않도록 당일 23:00으로 둔다.
+ const branchStartHour=branchMode?(input.timeBranch===0?23:input.timeBranch*2-1):null;
+ const [h,min]=input.unknown?[12,0]:branchMode?[branchStartHour,0]:input.time.split(':').map(Number),wall=Date.UTC(y,m-1,d,h,min),resolved=resolveKoreanTime(wall);
  const dayOfYear=Math.floor((Date.UTC(y,m-1,d)-Date.UTC(y,0,1))/86400000)+1,B=2*Math.PI*(dayOfYear-81)/365;
  const eqt=9.87*Math.sin(2*B)-7.53*Math.cos(B)-1.5*Math.sin(B),lon=(CITIES[input.city][1]-135)*4;
- const correction=input.correct&&!input.unknown?eqt+lon:0;
+ const correction=input.correct&&!input.unknown&&!branchMode?eqt+lon:0;
  const adjusted=new Date(resolved.instant+9*3600000+correction*60000);
  const ec=solar(adjusted).getLunar().getEightChar();ec.setSect(2);
  // Solar-term library is expressed in China standard time; compare the SAME instant in UTC+8.
  const termEC=solar(new Date(resolved.instant+8*3600000)).getLunar().getEightChar();
- const dayGan=ec.getDayGan(),dayZhi=ec.getDayZhi(),hourBranch=Math.floor(((adjusted.getUTCHours()*60+adjusted.getUTCMinutes()+60)%1440)/120);
+ const dayGan=ec.getDayGan(),dayZhi=ec.getDayZhi(),hourBranch=branchMode?input.timeBranch:Math.floor(((adjusted.getUTCHours()*60+adjusted.getUTCMinutes()+60)%1440)/120);
  const timeGan=GAN[((GAN.indexOf(dayGan)%5)*2+hourBranch)%10];
  const pillars=[input.unknown?null:{gan:timeGan,zhi:ZHI[hourBranch]},{gan:dayGan,zhi:dayZhi},{gan:termEC.getMonthGan(),zhi:termEC.getMonthZhi()},{gan:termEC.getYearGan(),zhi:termEC.getYearZhi()}];
  pillars.forEach((p,i)=>{if(!p)return;p.ganGod=i===1?'일간 · 나':god(dayGan,p.gan);p.hidden=Array.from(HIDDEN[p.zhi]);p.zhiGod=god(dayGan,p.hidden[0]);p.fortune=fortune(dayGan,p.zhi);});
  const counts=[0,0,0,0,0];pillars.filter(Boolean).forEach(p=>{counts[element(p.gan)]++;counts[element(p.zhi)]++;});
  const warnings=[];
+ if(branchMode){warnings.push('시간대만 선택해 그 시간대의 시지로 계산했어요. 분 단위가 없어 출생지 경도·균시차 보정은 적용하지 않았습니다.');if(input.timeBranch===0)warnings.push('자시(23:00~01:00)는 자정 전후로 일주가 달라질 수 있어요. 이 결과는 해당 날짜의 밤 시간을 기준으로 했습니다.');}
  if(input.unknown){warnings.push('시간 미상: 정오를 기준으로 세 기둥을 계산했어요. 자정·절기 경계 출생자는 일주·월주·년주가 달라질 수 있어요.');const a=resolveKoreanTime(Date.UTC(y,m-1,d,0,0)),b=resolveKoreanTime(Date.UTC(y,m-1,d,23,59));const edge=[a,b].map(t=>solar(new Date(t.instant+8*3600000)).getLunar().getEightChar());if(edge[0].getYear()!==edge[1].getYear()||edge[0].getMonth()!==edge[1].getMonth())warnings.push('이 날짜에는 절기 경계가 있어요. 정확한 출생 시간을 알아야 년주·월주를 확정할 수 있습니다.');}
- if(!input.unknown){const minutes=adjusted.getUTCHours()*60+adjusted.getUTCMinutes();if(Math.min((minutes+60)%120,120-(minutes+60)%120)<5)warnings.push('보정 시각이 시주 경계에서 5분 이내예요. 출생 기록과 도시 경도·균시차 근사 오차에 따라 시주가 달라질 수 있어요.');}
+ if(!input.unknown&&!branchMode){const minutes=adjusted.getUTCHours()*60+adjusted.getUTCMinutes();if(Math.min((minutes+60)%120,120-(minutes+60)%120)<5)warnings.push('보정 시각이 시주 경계에서 5분 이내예요. 출생 기록과 도시 경도·균시차 근사 오차에 따라 시주가 달라질 수 있어요.');}
  if(resolved.offset===10)warnings.push('한국 서머타임을 감지해 시계 시각에서 60분을 제외했어요.');
- return {input:{...input,name:(input.name||'당신').trim().slice(0,12)||'당신'},pillars,dayGan,counts,total:input.unknown?6:8,dayElement:element(dayGan),adjusted:stamp(adjusted),correction,lon,eqt,dst:resolved.offset===10,city:CITIES[input.city],warnings};
+ return {input:{...input,name:(input.name||'당신').trim().slice(0,12)||'당신'},pillars,dayGan,counts,total:input.unknown?6:8,dayElement:element(dayGan),adjusted:branchMode?null:stamp(adjusted),branchMode,correction,lon,eqt,dst:resolved.offset===10,city:CITIES[input.city],warnings};
 }
 
 const THEMES={
@@ -63,13 +69,15 @@ function forecast(r,gender,now=new Date()){
  const year=koreanYear(now);
  const annual=[year,year+1].map(y=>{const idx=((y-4)%60+60)%60,gan=GAN[idx%10],zhi=ZHI[idx%12],ganGod=god(r.dayGan,gan);return {year:y,gan,zhi,ganGod,zhiGod:god(r.dayGan,HIDDEN[zhi][0]),theme:THEMES[ganGod],beforeBirth:y<Number(r.input.date.slice(0,4))};});
  if(!gender)return {year,annual,daeun:null};
- const [y,m,d]=r.input.date.split('-').map(Number),[h,min]=(r.input.unknown?'12:00':r.input.time).split(':').map(Number),resolved=resolveKoreanTime(Date.UTC(y,m-1,d,h,min));
+ const branchMode=!r.input.unknown&&r.input.timeBranch!=null;
+ const branchStartHour=branchMode?(r.input.timeBranch===0?23:r.input.timeBranch*2-1):null;
+ const [y,m,d]=r.input.date.split('-').map(Number),[h,min]=r.input.unknown?[12,0]:branchMode?[branchStartHour,0]:r.input.time.split(':').map(Number),resolved=resolveKoreanTime(Date.UTC(y,m-1,d,h,min));
  // Daeun uses civil birth INSTANT, not longitude-adjusted display clock.
  const ec=solar(new Date(resolved.instant+8*3600000)).getLunar().getEightChar();
  const yun=ec.getYun(gender==='male'?1:0,2),start=yun.getStartSolar();
  const toInstant=s=>Date.UTC(s.getYear(),s.getMonth()-1,s.getDay(),s.getHour()-8,s.getMinute(),s.getSecond());
  const cycles=yun.getDaYun(10).slice(1).map((cycle,i)=>{const startSolar=start.nextYear(i*10),endSolar=start.nextYear((i+1)*10),from=toInstant(startSolar),to=toInstant(endSolar),gz=cycle.getGanZhi(),ganGod=god(r.dayGan,gz[0]);const startKst=new Date(from+9*3600000),birth=new Date(resolved.instant+9*3600000);let age=startKst.getUTCFullYear()-birth.getUTCFullYear();if(startKst.getUTCMonth()<birth.getUTCMonth()||(startKst.getUTCMonth()===birth.getUTCMonth()&&startKst.getUTCDate()<birth.getUTCDate()))age--;return {index:i,gan:gz[0],zhi:gz[1],ganGod,theme:THEMES[ganGod],from,to,start:stamp(startKst).slice(0,10),end:stamp(new Date(to+9*3600000)).slice(0,10),age,current:now.getTime()>=from&&now.getTime()<to};});
- return {year,annual,daeun:{forward:yun.isForward(),years:yun.getStartYear(),months:yun.getStartMonth(),days:yun.getStartDay(),hours:yun.getStartHour(),approximate:!!r.input.unknown,cycles,beforeStart:now.getTime()<cycles[0].from,afterEnd:now.getTime()>=cycles.at(-1).to}};
+ return {year,annual,daeun:{forward:yun.isForward(),years:yun.getStartYear(),months:yun.getStartMonth(),days:yun.getStartDay(),hours:yun.getStartHour(),approximate:!!r.input.unknown||branchMode,cycles,beforeStart:now.getTime()<cycles[0].from,afterEnd:now.getTime()>=cycles.at(-1).to}};
 }
 function yearWindow(year){const instant=y=>{const t=lib.Solar.fromYmd(y,2,4).getLunar().getJieQiTable()['立春'];return Date.UTC(t.getYear(),t.getMonth()-1,t.getDay(),t.getHour()-8,t.getMinute(),t.getSecond());};return {from:instant(year),to:instant(year+1)};}
 const api={compute,forecast,yearWindow,THEMES,element,god,fortune,KO,GAN,ZHI,ELEMENTS,CITIES,stamp,resolveKoreanTime};
