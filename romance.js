@@ -32,7 +32,35 @@ function analyze(r,f){const gender=r.input.gender,role=gender==='male'?'재성':
  const cycles=target&&f.daeun?f.daeun.cycles.map(c=>({...c,direct:[c.gan,c.zhi].filter(s=>S.element(s)===target.element),hidden:Array.from(CAL.LunarUtil.ZHI_HIDE_GAN[c.zhi]).filter(s=>S.element(s)===target.element),support:[c.gan,c.zhi].filter(s=>S.element(s)===(target.element+4)%5)})):[];
  return {role,gender,wealth,officer,resource,output,target,years,cycles,day,month,unknown:!!r.input.unknown};
 }
-function build(r,f){const a=analyze(r,f),day=symbol(r.dayGan),known=r.input.unknown?'확인된 세 기둥':'원국의 여덟 글자',parts=[];
+// 배우자궁(일지 본기) 십성 → 일상어 관계 성향. 명령형 표현을 쓰지 않는다.
+const BOND={
+ '비견':{like:'서로의 생활과 기준을 존중해주는 사람',tense:'내 방식을 간섭받는다고 느껴질 때',express:'혼자만의 시간도 지키면서 천천히 마음을 여는 편'},
+ '겁재':{like:'관심사를 함께 나누되 각자의 영역도 두는 사람',tense:'비교당하거나 경쟁하는 분위기가 될 때',express:'활동을 같이 하면서 가까워지는 편'},
+ '식신':{like:'편안하게 웃고 일상을 나눌 수 있는 사람',tense:'반응이 없거나 대화가 겉돌 때',express:'자연스러운 대화와 소소한 챙김으로 마음을 보여주는 편'},
+ '상관':{like:'솔직한 생각과 감정을 나눌 수 있는 사람',tense:'말을 참아야 하거나 눈치를 봐야 할 때',express:'하고 싶은 말을 비교적 솔직하게 꺼내는 편'},
+ '편재':{like:'새로운 경험을 함께 넓혀갈 수 있는 사람',tense:'관계가 답답하게 묶여 있다고 느낄 때',express:'여러 경험을 같이 하며 거리를 좁히는 편'},
+ '정재':{like:'작은 약속을 지키며 꾸준한 사람',tense:'약속이 자꾸 어긋나거나 불규칙할 때',express:'꾸준한 연락과 지킨 약속으로 신뢰를 쌓는 편'},
+ '편관':{like:'서로의 책임과 경계가 분명한 사람',tense:'관계의 기준이 모호하게 흐를 때',express:'관계의 방향을 비교적 또렷하게 확인하려는 편'},
+ '정관':{like:'예의와 약속, 관계의 방향이 분명한 사람',tense:'관계가 어디로 가는지 알 수 없을 때',express:'믿음직한 태도와 지킨 약속으로 마음을 보여주는 편'},
+ '편인':{like:'혼자만의 관심과 생각을 존중해주는 사람',tense:'속마음을 재촉받거나 몰아붙여질 때',express:'충분히 이해한 뒤에 마음을 천천히 내보이는 편'},
+ '정인':{like:'정서적으로 안정되고 이해심 있는 사람',tense:'마음을 몰라준다고 느껴질 때',express:'편안한 분위기 속에서 서서히 마음을 여는 편'}
+};
+// ② 연애 기본 해설: 실제 일지 본기 십성 + 월주 + 재성/관성/인성/식상 표면 분포에 근거한 4항목
+function basic(r,a){const bondGod=a.day.zhiGod;const bond=BOND[bondGod];
+ const rel=[['관성',a.officer],['인성',a.resource],['식상',a.output]].sort((u,v)=>v[1].surface-u[1].surface);
+ const topRel=rel[0],tie=rel[0][1].surface===rel[1][1].surface;
+ const warm={'관성':'관계가 어디로 가는지, 서로 약속을 지키는지가 또렷할 때','인성':'내 마음을 넉넉히 이해받고 있다고 느껴질 때','식상':'편하게 웃고 이야기하며 마음을 주고받을 때'};
+ const miss={'관성':'관계의 방향이나 약속이 흐릿할 때','인성':'마음을 몰라준다고 느껴질 때','식상':'표현이 막히고 대화가 겉돌 때'};
+ const samed=a.day.gan===a.day.hidden[0];
+ const unknownNote=a.unknown?' 태어난 시간을 몰라서 시주를 제외하고 읽은 부분이라, 시간이 확인되면 더 또렷해지는 결도 있어요.':'';
+ return {title:`가까워질수록 드러나는 나의 모습`,lead:`사주에서 읽히는 관계 성향을 바탕으로, 마음을 표현하는 방식과 편안하게 느끼는 관계를 살펴봤어요.`,
+ chapters:[
+ ch('마음을 표현하고 가까워지는 방식',`${bond.express}이에요.${samed?' 가까운 사이에서도 내 기준이 비교적 또렷해서, 기대는 쪽보다 나란히 걷는 관계가 편한 편이에요.':''} 마음을 전하는 속도와 방식이 서로 다를 수 있어요. 내가 어떤 표현을 좋아하는지 함께 이야기하면 서로를 알아가기 편해져요.${unknownNote}`),
+ ch('편안함을 느끼는 상대의 태도',`${bond.like} 곁에서 마음이 놓이는 편이에요. 특히 ${warm[topRel[0]]} 안정감을 느껴요.${tie?' 책임감과 이해심, 표현력 중 어느 하나로 단정하기 어려운 분포라, 상황에 따라 중요하게 느끼는 지점이 달라지기도 해요.':''}`),
+ ch('관계에서 엇갈리기 쉬운 순간',`${bond.tense}${bond.tense===miss[topRel[0]]?'':', 또는 '+miss[topRel[0]]} 서운함이 쌓이기 쉬워요. 이런 건 성격 문제라기보다, 내가 편하게 느끼는 관계 방식과 상대의 방식이 다를 때 생기는 어긋남에 가까워요.`),
+ ch('서로를 이해하는 데 도움이 되는 것',`내가 ${bond.express}이라는 걸 상대가 알면 오해가 줄어요. 서운한 장면이 반복된다면 상대를 바꾸려 하기보다, 내가 말 안 하고 혼자 기대했던 게 있었는지 떠올리면 관계가 한결 가벼워져요.`)]
+ };}
+function technical(r,f){const a=analyze(r,f),day=symbol(r.dayGan),known=r.input.unknown?'확인된 세 기둥':'원국의 여덟 글자',parts=[];
  function inventory(x,label){const raw=[...x.stems.map(v=>`${v.position} 천간 ${symbol(v.symbol)}(${v.god})`),...x.branches.map(v=>`${v.position} 지지 ${symbol(v.symbol)}`)];const h=x.hidden.map(v=>`${v.position} ${symbol(v.branch)} 속 ${symbol(v.symbol)}(${v.god}${v.main?'·본기':''})`);return [`${day} 기준 ${label}에 해당하는 오행은 ${word(x.element)}입니다. ${known}의 표면에서는 ${x.surface}개가 확인됩니다.${raw.length?' 구체적으로는 '+raw.join(', ')+'입니다.':' 천간과 지지의 대표 오행에 해당 기운이 나타나지 않는 구성입니다.'}`,`지장간에서는 ${x.hidden.length}곳이 확인됩니다.${h.length?' '+h.join(', ')+'에 들어 있습니다.':' 알려진 기둥들의 지장간에도 해당 천간이 나타나지 않습니다.'} 표면은 드러난 기운, 지장간은 지지 안에 담긴 기운으로 구분한 결과입니다.`];}
  if(a.target){const absent=a.target.surface===0&&a.target.hidden.length===0;parts.push(ch(`1. 사주에 연애·배우자를 뜻하는 별이 있는가? (${a.role} 분석)`,`선택한 전통 ${a.gender==='male'?'남성':'여성'} 해석 기준에서는 ${a.role}을 연인·배우자와 연결해 읽습니다.`,...inventory(a.target,a.role),a.unknown?`출생 시간이 없어 시주를 제외한 결과입니다. 현재 글자에 ${a.role}이 보이지 않더라도 전체 원국에 없다고 확정하지 않습니다.`:absent?`이 원국은 표면과 지장간에 ${a.role}이 확인되지 않는 구성입니다.${a.role==='재성'?' 전통 해설에서는 이런 재성의 부재를 무재(無財)로 부르기도 합니다.':''} 원국에서 직접 드러나지 않던 배우자성이 대운·세운에서 들어오는 때를 따로 살피는 구성입니다.`:a.target.surface===0?`표면에는 ${a.role}이 드러나지 않지만 지장간에는 존재합니다. 겉으로 드러난 배우자성과 안에 담긴 배우자성을 구분해야 하므로, 숨은 기운까지 없다고 해석하는 구성은 아닙니다.`:`표면에 ${a.role}이 나타나므로 배우자와 관계의 상징이 원국에 명시되어 있는 구성입니다. 겉에 나타난 배우자성과 배우자궁의 십성을 함께 살펴보는 구성입니다.`));}
  else parts.push(ch('1. 원국의 재성과 관성은 어떻게 구성되어 있는가?',`전통 배우자성의 기준이 선택되지 않아 남성 기준의 재성 또는 여성 기준의 관성 중 하나를 임의로 지정하지 않았습니다. ${day} 기준의 두 분포를 함께 표시합니다.`,...inventory(a.wealth,'재성'),...inventory(a.officer,'관성')));
@@ -48,5 +76,6 @@ function build(r,f){const a=analyze(r,f),day=symbol(r.dayGan),known=r.input.unkn
  else parts.push(ch('5. 대운·세운의 연애 시기를 구분하려면','전통 남성 기준에서는 재성, 전통 여성 기준에서는 관성의 유입을 배우자성으로 읽는 방식이 있어 적용 기준이 필요합니다. 현재는 기준을 선택하지 않아 한쪽의 연도를 개인의 연애 시기로 지정하지 않았습니다.'));
  return {title:a.role?`${day}의 연애 원국과 ${a.role}, 배우자궁의 흐름`: `${day}의 연애 원국과 배우자궁`,lead:a.target?`${a.role}의 표면·지장간 분포부터 배우자궁, 상대의 오행 상징, 대운·세운의 유입까지 순서대로 풀이합니다.`:'입력된 원국에서 재성·관성과 배우자궁을 구분하여 풀이합니다.',chapters:parts,analysis:a};
 }
+function build(r,f){const detail=technical(r,f);return {...detail,basic:basic(r,detail.analysis),technical:detail};}
 const api={scan,annualStars,analyze,build};if(typeof module==='object'&&module.exports)module.exports=api;else root.RomanceReport=api;
 })(typeof globalThis==='object'?globalThis:this);
