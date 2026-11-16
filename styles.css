@@ -24,3 +24,5 @@
 
 .time-precision{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.precision-opt{display:flex!important;align-items:center;gap:7px;font-size:12px!important;font-weight:400!important;cursor:pointer;background:#f4f1ea;border:1px solid #e1dcd1;border-radius:22px;padding:8px 14px;margin:0!important}.precision-opt input{appearance:auto;width:15px;height:15px;accent-color:#a38a53;margin:0}.time-input input,.time-input select{background:#fff;border:1px solid #dcd7cd;border-radius:9px;width:100%;height:49px;padding:0 14px;font-size:13px;color:#59564f}
 @media(max-width:760px){.time-precision{gap:6px}.precision-opt{font-size:11px!important;padding:7px 11px}}
+
+.time-exact-row{display:flex;gap:8px}.time-exact-row select{flex:1}.time-exact-row #birth-ampm{flex:0 0 78px}

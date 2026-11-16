@@ -22,11 +22,15 @@ $('.menu-button').onclick=()=>{const h=$('.site-header'),open=h.classList.toggle
 $('.site-header nav').addEventListener('click',()=>{$('.site-header').classList.remove('menu-open');$('.menu-button').setAttribute('aria-expanded','false');});
 function route(){const hash=location.hash,view=hash==='#form'?'form':hash==='#result'&&result?'result':'home';document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!==view+'-view');document.title=view==='result'?'나의 사주 이야기 — 온결':view==='form'?'나의 정보 입력 — 온결':'온결 — 태어난 날에 담긴, 나의 결';if(hash==='#guide')requestAnimationFrame(()=>$('#guide').scrollIntoView());else window.scrollTo(0,0);}
 window.addEventListener('hashchange',route);route();
-// 1시간 구간 드롭다운 채우기: 00:00~01:00 ... 23:00~24:00
-(function(){const sel=$('#birth-hour');if(!sel)return;for(let h=0;h<24;h++){const o=document.createElement('option');o.value=String(h);o.textContent=`${String(h).padStart(2,'0')}:00 ~ ${String(h+1).padStart(2,'0')}:00`;sel.appendChild(o);}})();
+// 드롭다운 채우기: 1시간 구간 + 정확 입력의 시(1~12)·분(0~59)
+(function(){const sel=$('#birth-hour');if(sel)for(let h=0;h<24;h++){const o=document.createElement('option');o.value=String(h);o.textContent=`${String(h).padStart(2,'0')}:00 ~ ${String(h+1).padStart(2,'0')}:00`;sel.appendChild(o);}
+ const hh=$('#birth-hour12');if(hh)for(let h=1;h<=12;h++){const o=document.createElement('option');o.value=String(h);o.textContent=`${h}시`;hh.appendChild(o);}
+ const mm=$('#birth-min');if(mm)for(let m=0;m<60;m++){const o=document.createElement('option');o.value=String(m);o.textContent=`${String(m).padStart(2,'0')}분`;mm.appendChild(o);}})();
+// 12시간제(오전/오후 + 1~12시 + 분) → 24시간제 HH:MM. 오전 12시=00시, 오후 12시=12시.
+function exactTime24(){const ap=$('#birth-ampm').value,h12=$('#birth-hour12').value,m=$('#birth-min').value;if(h12===''||m==='')return null;let h=Number(h12)%12;if(ap==='PM')h+=12;return `${String(h).padStart(2,'0')}:${String(Number(m)).padStart(2,'0')}`;}
 // 정밀도 전환: 정확/대략/모름에 따라 입력 영역 토글
 function timePrecision(){return (document.querySelector('input[name=time-precision]:checked')||{}).value||'exact';}
-function syncPrecision(){const p=timePrecision();$('#time-exact').hidden=p!=='exact';$('#time-approx').hidden=p!=='approx';$('#time-help').hidden=p!=='unknown';$('#birth-time').required=p==='exact';$('#birth-hour').required=p==='approx';}
+function syncPrecision(){const p=timePrecision();$('#time-exact').hidden=p!=='exact';$('#time-approx').hidden=p!=='approx';$('#time-help').hidden=p!=='unknown';$('#birth-hour').required=p==='approx';}
 document.querySelectorAll('input[name=time-precision]').forEach(el=>el.onchange=syncPrecision);syncPrecision();
 const ZHI_KO={子:'자',丑:'축',寅:'인',卯:'묘',辰:'진',巳:'사',午:'오',未:'미',申:'신',酉:'유',戌:'술',亥:'해'};
 const gz=s=>s?Saju.KO[s[0]]+Saju.KO[s[1]]+'('+s+')':'미상';
@@ -35,7 +39,7 @@ $('#birth-form').onsubmit=e=>{e.preventDefault();$('#form-error').textContent=''
  let r,timeText;
  if(prec==='unknown'){r=Saju.compute({...common,unknown:true});timeText='시간을 몰라요 · 시간을 제외하고 풀이';}
  else if(prec==='approx'){const hv=$('#birth-hour').value;if(hv==='')throw new Error('태어난 1시간 구간을 선택해주세요.');const approx=Saju.computeApprox({...common,hourStart:Number(hv)});r=approx.base;r.approx=approx;r.input={...r.input,approxRange:true,hourStart:approx.hourStart};timeText=`${String(approx.hourStart).padStart(2,'0')}:00~${String(approx.hourStart+1).padStart(2,'0')}:00 구간 · 대략`;}
- else{const t=$('#birth-time').value;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(t))throw new Error('태어난 시각을 시:분으로 입력해주세요.');r=Saju.compute({...common,time:t,unknown:false});timeText=esc(t)+' (정확)';}
+ else{const t=exactTime24();if(!t)throw new Error('오전·오후와 시·분을 모두 선택해주세요.');const ap=$('#birth-ampm').value==='PM'?'오후':'오전',h12=$('#birth-hour12').value,mm=$('#birth-min').value;r=Saju.compute({...common,time:t,unknown:false});timeText=`${ap} ${h12}시 ${String(Number(mm)).padStart(2,'0')}분 (정확)`;}
  pending=r;
  const candNote=r.approx&&Object.keys(r.approx.candidates).length?`<p class="notice">이 시간대 안에서 ${Object.keys(r.approx.candidates).map(k=>({hour:'시주',day:'일주',month:'월주',year:'년주'}[k])).join('·')}가 갈릴 수 있어요. 아래 결과는 그중 한 경우이며, 상세 분석에서 후보를 모두 보여드려요.</p>`:'';
  openDialog(`<span class="eyebrow">ONE LAST LOOK</span><h2 id="dialog-title">이렇게 입력하셨나요?</h2><p>입력한 정보를 확인한 뒤 나의 사주를 펼쳐보세요.</p><dl class="confirm-data"><dt>이름</dt><dd>${esc(r.input.name)}</dd><dt>생년월일</dt><dd>양력 ${esc(r.input.date)}</dd><dt>전통 해석 기준</dt><dd>${r.input.gender==='male'?'남성 기준':r.input.gender==='female'?'여성 기준':'선택 안 함 · 배우자성·대운 구분 제외'}</dd><dt>태어난 시간</dt><dd>${esc(timeText)}</dd><dt>출생 도시</dt><dd>${r.city[0]} · 동경 ${r.city[1]}°</dd></dl>${candNote}${r.warnings.map(w=>`<p class="notice">${esc(w)}</p>`).join('')}<div class="confirm-actions"><button type="button" class="button secondary" id="edit-confirm">수정하기</button><button type="button" class="button primary" id="confirm-submit">나의 사주 보기 →</button></div>`);$('#edit-confirm').onclick=closeDialog;$('#confirm-submit').onclick=()=>{result=pending;renderResult();closeDialog();location.hash='result';};}catch(error){$('#form-error').textContent=error.message||'계산 중 문제가 발생했어요. 입력값을 확인해주세요.';}};

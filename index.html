@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#faf9f6"><meta name="description" content="태어난 날에 담긴 나의 결. 온결에서 사주 원국과 오행을 쉽고 차분하게 만나보세요.">
 <title>온결 — 태어난 날에 담긴, 나의 결</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=20261110-time3">
-<script defer src="vendor/lunar.js"></script><script defer src="engine.js?v=20261110-time3"></script><script defer src="romance.js?v=20261109-reading3"></script><script defer src="report.js?v=20261109-reading3"></script><script defer src="insights.js?v=20261110-time3"></script><script defer src="app.js?v=20261110-time3"></script><script defer src="guestbook.js"></script>
+<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=20261116-time4">
+<script defer src="vendor/lunar.js"></script><script defer src="engine.js?v=20261116-time4"></script><script defer src="romance.js?v=20261109-reading3"></script><script defer src="report.js?v=20261109-reading3"></script><script defer src="insights.js?v=20261116-time4"></script><script defer src="app.js?v=20261116-time4"></script><script defer src="guestbook.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문으로 이동</a>
@@ -44,7 +44,7 @@
 <label class="precision-opt"><input type="radio" name="time-precision" value="approx"> 대략 알아요</label>
 <label class="precision-opt"><input type="radio" name="time-precision" value="unknown"> 시간을 몰라요</label>
 </div>
-<div id="time-exact" class="time-input"><input type="time" id="birth-time" name="time" aria-label="태어난 시각 (시:분)"><p class="field-help">아는 대로 시·분을 입력해주세요. 출생지 경도와 균시차로 보정해 시주를 계산해요.</p></div>
+<div id="time-exact" class="time-input"><div class="time-exact-row"><select id="birth-ampm" aria-label="오전 또는 오후"><option value="AM">오전</option><option value="PM">오후</option></select><select id="birth-hour12" aria-label="시 (1~12)"><option value="">시</option></select><select id="birth-min" aria-label="분 (0~59)"><option value="">분</option></select></div><p class="field-help">오전·오후를 고르고 시·분을 선택해주세요. 오전 12시는 자정, 오후 12시는 정오예요. 출생지 경도와 균시차로 보정해 시주를 계산해요.</p></div>
 <div id="time-approx" class="time-input" hidden><select id="birth-hour" aria-label="태어난 시간대 (1시간 구간)"><option value="">1시간 구간을 선택해주세요</option></select><p class="field-help">정확한 분을 몰라도 돼요. 구간 안에서 보정 결과가 갈리면 시주를 하나로 확정하지 않고 후보로 보여드려요.</p></div>
 <p class="field-help" id="time-help" hidden>태어난 시간을 제외하고, 확인되는 날짜 정보로 풀이해드릴게요.</p></div>
 <div class="field"><label for="city">태어난 도시 <span class="required">*</span></label><select id="city" name="city" required><option value="">출생 도시를 선택해주세요</option><option value="seoul">서울</option><option value="busan">부산</option><option value="incheon">인천</option><option value="daegu">대구</option><option value="daejeon">대전</option><option value="gwangju">광주</option><option value="ulsan">울산</option><option value="sejong">세종</option><option value="suwon">수원</option><option value="chuncheon">춘천</option><option value="gangneung">강릉</option><option value="cheongju">청주</option><option value="jeonju">전주</option><option value="jeju">제주</option></select><p class="field-help">국내 대표 도시의 경도를 사용해요. 가까운 도시를 선택할 수 있지만 출생지가 다르면 경계 시각의 시주가 달라질 수 있어요.</p></div>
