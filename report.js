@@ -56,6 +56,20 @@ const WORK_STYLE=[
 ];
 function career(r,p){const field=ELEMENT_FIELD[r.dayElement];return {title:'나에게 맞는 일과 돈 관리 방식',lead:`사주를 보면 ${p.main.strength}. 이런 성향이 일과 돈을 관리할 때 어떻게 나타날 수 있는지 풀어봤어요.`,chapters:[chapter('능력을 발휘하기 편한 방식',WORK_STYLE[p.top[0]]+'.',p.top.length>1?`여러 성향이 함께 나타나서 한 가지 역할만으로 나를 설명하기는 어려워요. ${p.top.slice(1).map(i=>WORK_STYLE[i]+'.').join(' ')}`:p.main.work+'.'),chapter('강점과 함께 챙길 보완점',p.main.strength+'.',p.main.tension+'. 바쁜 시기에는 내가 맡을 일과 도움을 받을 일을 미리 나누어두면 부담을 덜 수 있어요.'),chapter('돈을 벌고 관리하는 태도',p.counts[2]>0?'눈에 보이는 결과와 자원을 챙기는 성향을 돈 관리에서도 살려볼 수 있어요. 사고 싶은 것이 생기면 가격뿐 아니라 얼마나 자주 쓸지도 함께 생각하면 내 기준을 세우는 데 도움이 돼요.':'현재 확인된 정보만으로 돈을 다루는 성향을 단정하기는 어려워요. 수입과 고정 지출을 한곳에 적고, 자유롭게 쓸 금액을 따로 정해두는 방법을 참고할 수 있어요.'),chapter('일상에서 살려볼 방향',`${field.word}을 전통적인 참고 방향으로 살펴볼 수 있어요. ${field.fields}가 그 예예요. 직업을 바꾸는 결론으로 바로 이어가기보다, 지금 하는 일 안에서 관심이 가는 활동을 작게 경험해보는 편이 좋아요.`)]};}
 
+// 오행별 생활·에너지 결(참고). 의학적 진단이 아니라 전통 상징을 생활 리듬 언어로 옮긴 것.
+const ELEMENT_HEALTH=[
+ {name:'목',rhythm:'새로 벌이고 뻗어나가려는 기운',much:'여러 일을 동시에 시작해 마무리가 밀릴 때',care:'한 번에 다 하려 하기보다 끝낼 순서를 정해두면 한결 가벼워요'},
+ {name:'화',rhythm:'밖으로 드러내고 활발하게 쓰는 기운',much:'사람·일에 에너지를 몰아 쓰고 금방 지칠 때',care:'신나는 날일수록 쉬는 시간을 미리 정해두면 리듬이 오래가요'},
+ {name:'토',rhythm:'자리를 지키고 꾸준히 버티는 기운',much:'다 떠안고 참다가 몸이 먼저 신호를 보낼 때',care:'버티는 데 익숙한 만큼, 쉬어도 되는 선을 미리 정해두면 좋아요'},
+ {name:'금',rhythm:'기준을 세우고 조이는 기운',much:'완벽하게 하려다 긴장이 몸에 남을 때',care:'잘해야 한다는 긴장을 느끼면 잠깐 힘을 빼는 신호로 삼아보세요'},
+ {name:'수',rhythm:'안으로 모으고 깊이 가라앉는 기운',much:'생각이 길어져 잠·휴식 리듬이 흐트러질 때',care:'머릿속이 복잡한 날은 가볍게 몸을 움직여 생각을 끊어주면 도움이 돼요'}
+];
+function health(r,p){const dom=p.dominant,domLife=dom.map(i=>ELEMENT_HEALTH[i]),miss=p.missing;const base=ELEMENT_HEALTH[r.dayElement];
+ return {title:'내 기운의 결과 생활 리듬',lead:`건강은 좋고 나쁨을 점치는 게 아니라, 내 기운이 어디로 잘 흐르고 어디서 쉽게 지치는지를 생활 리듬으로 읽는 거예요. 아래는 전통 오행 상징을 참고한 일반적인 이야기이고, 의학적 진단이나 질병 예측이 아니에요.`,chapters:[
+ chapter('내 기운이 잘 흐르는 방향',`나를 나타내는 기운은 ${base.name}이라, ${base.rhythm}이 바탕에 있어요. 내가 편하게 쓰는 리듬을 알아두면 무리하지 않고 오래 쓰기 좋아요.`),
+ chapter('기운이 몰리거나 비어 있는 부분',`표면 오행을 보면 ${domLife.map(x=>x.name).join('·')}의 기운이 두드러져요. ${domLife[0].rhythm}이 특히 강하게 나타나는 편이에요.${miss.length?` 반대로 ${miss.map(i=>S.ELEMENTS[i].name).join('·')}의 기운은 표면에 적게 보여요. 이건 어디가 약하다는 뜻이 아니라, 그 결을 의식적으로 챙기면 균형에 도움이 된다는 참고예요.`:' 다섯 기운이 비교적 고르게 보이는 편이에요.'}`),
+ chapter('무리하기 쉬운 상황',`${domLife[0].much} 몸이 먼저 피로를 느낄 수 있어요. 성격 문제라기보다 익숙한 기운을 과하게 쓸 때 나타나는 흐름으로 봐주세요.`),
+ chapter('생활 리듬에서 참고할 점',`${[...new Set([domLife[0].care,base.care])].join('. ')}. 큰 결심보다 잠·끼니·쉬는 시간 같은 작은 리듬부터 지켜보는 편이 도움이 돼요. 몸이 계속 불편하면 사주 해석과 별개로 꼭 전문가의 진료를 받으세요.`)]};}
 function period(r,p,a,label,context){const group=GROUPS[G[a.ganGod]];const same=G[a.ganGod]===p.top[0];let repetition=same?`마침 평소 내가 잘 쓰는 ‘${p.main.word}’과 비슷한 흐름이에요. 익숙한 장점을 그대로 살리기 좋되, ${p.main.tension}. 비슷한 부담이 반복되는지만 가끔 점검하면 좋아요.`:`평소 익숙한 ‘${p.main.word}’에, 이번엔 ‘${group.word}’이라는 조금 다른 주제가 더해지는 때예요. 늘 하던 방식만으로 안 풀릴 땐 ${group.work}.`;return {title:a.theme[0],lead:`${particle(label,'은','는')} ‘${group.word}’이 중심 주제로 떠오르는 흐름이에요. 어떤 일이 정해져 있다기보다, 이런 결을 어떻게 다루면 좋을지 생각해보기 좋은 때예요.`,chapters:[chapter('이 시기에 읽히는 주제',a.theme[1]+' '+repetition),chapter('관계에서 나타날 수 있는 모습',relationText(r,a.zhi,label),a.theme[2]+' '+p.main.love),chapter('관심을 두거나 점검해볼 부분',`${group.work}. 한 해나 10년의 흐름이 내 선택을 대신해주진 않아요. 바꾸고 싶은 게 있다면 상대의 실제 행동과 지금 형편을 보고 작은 것부터 정해가는 편이 훨씬 도움이 돼요.`),...(context?[chapter('더 긴 흐름과 함께 보면',context)]:[])]};}
 function build(r,f,cycleIndex){const p=profile(r),day=S.KO[r.dayGan]+'('+r.dayGan+')',others=p.top.map(i=>GROUPS[i].name).join('·'),month=S.KO[r.pillars[2].zhi];const current=f.daeun?.cycles.find(c=>c.current);const birthNote=r.input.unknown?'태어난 시간을 몰라서 시주를 제외하고 읽은 해설이에요. 시간이 확인되면 조금 더 또렷해지는 부분이 있어요.':'태어난 날을 중심으로, 한 가지 기운에만 기대지 않고 여러 결을 함께 보고 쓴 해설이에요.';
 const secondary=p.counts.map((n,i)=>({n,i})).filter(x=>!p.top.includes(x.i)&&x.n>0).sort((a,b)=>b.n-a.n||a.i-b.i);
@@ -63,9 +77,10 @@ const personality={title:`${p.day[1]} 사람`,lead:`${p.day[0]}에 비유되는 
 const annual=f.annual.map(a=>{const byCycle=f.daeun?.cycles.filter(c=>{const {from,to}=S.yearWindow(a.year);return c.from<to&&c.to>from;});const context=byCycle?.length?`${a.year}년 즈음은 지금 지나는 큰 흐름(${byCycle.map(c=>ko(c.gan+c.zhi)+' 시기').join(', ')})과 겹쳐요. 10년짜리 큰 흐름이 배경이라면 한 해는 그 안의 한 장면이에요. 둘이 비슷한 주제면 그만큼 또렷해지고, 다르면 두 가지를 조율하는 해가 돼요.`:null;return {...a,...period(r,p,a,`${a.year}년`,context)};});
 const selected=f.daeun?.cycles[cycleIndex??f.daeun.cycles.findIndex(c=>c.current)]||f.daeun?.cycles[0];const daeun=selected?{...selected,...period(r,p,selected,`${ko(selected.gan+selected.zhi)} 시기`,`평소 내가 잘 쓰는 결은 ‘${p.main.easy}’예요. 이 10년을 볼 때도 그 바탕을 같이 생각하면 좋아요. 큰 흐름이 바뀐다고 타고난 성격이 사라지는 건 아니고, 익숙한 나를 새 환경에서 어떻게 쓸지 다시 맞춰보는 시간이에요.`)}:null;
 const careerReport=career(r,p);
+const healthReport=health(r,p);
 const summary=buildSummary(r,p);
 const evidence=buildEvidence(r,p);
-return {profile:p,summary,evidence,personality,love:Romance.build(r,f),career:careerReport,annual,daeun};}
+return {profile:p,summary,evidence,personality,love:Romance.build(r,f),career:careerReport,health:healthReport,annual,daeun};}
 // 일간별 한 단어 성향 키워드(일상어)
 const DAY_KEYWORD=['곧은 심지','유연함','따뜻함','섬세함','든든함','살뜰함','단단함','섬세한 기준','넓은 시야','차분함'];
 const GROUP_KEYWORD=['내 페이스','표현력','현실 감각','책임감','깊은 이해'];
@@ -82,6 +97,7 @@ function buildEvidence(r,p){const pillarGods=r.pillars.map((pl,i)=>pl?{label:['�
  personality:[`일간: ${S.KO[r.dayGan]}(${r.dayGan}) · ${S.ELEMENTS[r.dayElement].name}(${S.ELEMENTS[r.dayElement].han})`,`월지(계절): ${S.KO[r.pillars[2].zhi]}(${r.pillars[2].zhi})${p.season?' · '+p.season[0]:''}`,`자주 나타나는 십성 그룹: ${p.top.map(i=>GROUPS[i].name).join('·')}`,`표면 오행 분포: ${S.ELEMENTS.map((e,i)=>e.name+' '+r.counts[i]).join(', ')}`],
  love:[`일지(배우자궁): ${S.KO[r.pillars[1].zhi]}(${r.pillars[1].zhi})`,`관계 성향에 쓰인 주제: ${p.main.name}`,'연애 해설은 상대의 출생 정보 없이 ‘나의 관계 성향’으로만 읽었어요. 두 사람 궁합 계산이 아닙니다.'],
  career:[`일간 오행: ${S.ELEMENTS[r.dayElement].name}`,`십성 그룹별 개수(지지 본기 포함): 비겁 ${groupCounts[0]}, 식상 ${groupCounts[1]}, 재성 ${groupCounts[2]}, 관성 ${groupCounts[3]}, 인성 ${groupCounts[4]}`,'직업 분류는 원본 문서의 참고 기준이며 특정 직업을 정답으로 제시하지 않아요.'],
+ health:[`일간 오행: ${S.ELEMENTS[r.dayElement].name}`,`표면 오행 분포: ${S.ELEMENTS.map((e,i)=>e.name+' '+r.counts[i]).join(', ')}`,`많은 오행: ${p.dominant.map(i=>S.ELEMENTS[i].name).join('·')}${p.missing.length?' / 적은 오행: '+p.missing.map(i=>S.ELEMENTS[i].name).join('·'):''}`,'오행을 생활 리듬 상징으로만 참고했어요. 의학적 진단·질병 예측·강약 점수가 아닙니다.'],
  pillarGods};}
 const api={build,profile,relation,relationText};if(typeof module==='object'&&module.exports)module.exports=api;else root.SajuReport=api;
 })(typeof globalThis==='object'?globalThis:this);

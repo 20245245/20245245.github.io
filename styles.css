@@ -26,3 +26,5 @@
 @media(max-width:760px){.time-precision{gap:6px}.precision-opt{font-size:11px!important;padding:7px 11px}}
 
 .time-exact-row{display:flex;gap:8px}.time-exact-row select{flex:1}.time-exact-row #birth-ampm{flex:0 0 78px}
+
+.report-cover .field-emoji{display:block;font-size:40px;line-height:1;margin-bottom:12px}@media(max-width:760px){.report-cover .field-emoji{font-size:34px}}
