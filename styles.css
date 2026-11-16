@@ -28,3 +28,5 @@
 .time-exact-row{display:flex;gap:8px}.time-exact-row select{flex:1}.time-exact-row #birth-ampm{flex:0 0 78px}
 
 .report-cover .field-emoji{display:block;font-size:40px;line-height:1;margin-bottom:12px}@media(max-width:760px){.report-cover .field-emoji{font-size:34px}}
+
+.form-privacy{display:flex;gap:8px;align-items:flex-start;background:#f3f0e6;border:1px solid #e7dfca;border-radius:10px;padding:11px 14px;margin:0 0 24px;font-size:12px;line-height:1.7;color:#7c745f}.form-privacy span{font-size:14px}

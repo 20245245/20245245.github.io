@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#faf9f6"><meta name="description" content="태어난 날에 담긴 나의 결. 온결에서 사주 원국과 오행을 쉽고 차분하게 만나보세요.">
 <title>온결 — 태어난 날에 담긴, 나의 결</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=20261116-health5">
-<script defer src="vendor/lunar.js"></script><script defer src="engine.js?v=20261116-health5"></script><script defer src="romance.js?v=20261109-reading3"></script><script defer src="report.js?v=20261116-health5"></script><script defer src="insights.js?v=20261116-health5"></script><script defer src="app.js?v=20261116-health5"></script><script defer src="guestbook.js"></script>
+<link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=20261116-privacy6">
+<script defer src="vendor/lunar.js"></script><script defer src="engine.js?v=20261116-privacy6"></script><script defer src="romance.js?v=20261109-reading3"></script><script defer src="report.js?v=20261116-privacy6"></script><script defer src="insights.js?v=20261116-privacy6"></script><script defer src="app.js?v=20261116-privacy6"></script><script defer src="guestbook.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문으로 이동</a>
@@ -36,7 +36,7 @@
 </section>
 </section>
 <section id="form-view" class="view" hidden><div class="form-layout shell"><aside class="form-aside"><a href="#home" class="back-link">← 처음으로</a><span class="eyebrow">YOUR STORY STARTS HERE</span><h1>당신의 이야기는,<br>어느 날 시작됐나요?</h1><p>태어난 날과 시간을 알려주세요.<br>그날의 기운을 차근차근 펼쳐드릴게요.</p><div class="form-art" aria-hidden="true"><span>✳</span><i>모든 날에는 저마다의 빛이 있어요</i></div><div class="privacy-note"><span>◈</span><p>입력한 정보는 서버로 보내지 않아요.<br>오직 지금, 나의 이야기를 읽는 데만 사용해요.</p></div></aside>
-<form id="birth-form" class="form-card"><div class="step-label"><span>01 정보 입력</span><span>02 확인</span><span>03 나의 사주</span></div><h2>나의 기본 정보</h2><p class="form-lead">이름은 별명이어도 좋아요.</p><div class="field"><label for="name">이름 또는 별명 <small>선택</small></label><input id="name" name="name" maxlength="12" placeholder="어떻게 불러드릴까요?" autocomplete="off"></div>
+<form id="birth-form" class="form-card"><div class="step-label"><span>01 정보 입력</span><span>02 확인</span><span>03 나의 사주</span></div><h2>나의 기본 정보</h2><p class="form-lead">이름은 별명이어도 좋아요.</p><p class="form-privacy"><span aria-hidden="true">🔒</span> 여기 입력한 정보는 서버에 저장되지 않아요. 사주 계산에만 쓰이고, 새로고침하면 사라져요.</p><div class="field"><label for="name">이름 또는 별명 <small>선택</small></label><input id="name" name="name" maxlength="12" placeholder="어떻게 불러드릴까요?" autocomplete="off"></div>
 <div class="field"><label for="birth-date">생년월일 <span class="required">*</span></label><div class="date-row"><span class="calendar-label">양력</span><input type="date" id="birth-date" name="date" min="1970-01-01" max="2026-12-31" required aria-describedby="date-help"></div><p class="field-help" id="date-help">1970~2026년 · 한국 출생 · 양력 날짜로 입력해주세요.</p></div>
 <div class="field"><label>태어난 시간 <span class="required">*</span></label>
 <div class="time-precision" role="radiogroup" aria-label="시간 입력 방식">
